@@ -1,0 +1,2467 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏓 Conseiller Matériel Tennis de Table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & VARIABLES ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:        #0d1b2e;
+  --navy-mid:    #1a3350;
+  --navy-light:  #234980;
+  --orange:      #ff5f1f;
+  --orange-dark: #e04d10;
+  --orange-glow: rgba(255,95,31,.18);
+  --blue:        #3b9eff;
+  --blue-light:  #e8f4ff;
+  --green:       #10b981;
+  --purple:      #8b5cf6;
+  --gold:        #f59e0b;
+  --bg:          #f0f4f8;
+  --card:        #ffffff;
+  --text:        #0d1b2e;
+  --text-mid:    #374151;
+  --muted:       #6b7280;
+  --border:      #e5e7eb;
+  --radius-sm:   8px;
+  --radius:      14px;
+  --radius-lg:   20px;
+  --shadow:      0 2px 12px rgba(13,27,46,.08);
+  --shadow-md:   0 6px 24px rgba(13,27,46,.12);
+  --shadow-lg:   0 12px 48px rgba(13,27,46,.18);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* ===== HEADER ===== */
+.app-header {
+background: linear-gradient(135deg, var(–navy) 0%, var(–navy-mid) 60%, #1e3f70 100%);
+padding: 1.25rem 1.5rem 1.5rem;
+position: relative;
+overflow: hidden;
+}
+.app-header::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background-image: radial-gradient(circle at 20% 50%, rgba(255,95,31,.15) 0%, transparent 50%),
+radial-gradient(circle at 80% 20%, rgba(59,158,255,.1) 0%, transparent 40%);
+pointer-events: none;
+}
+.app-header::after {
+content: ‘🏓’;
+position: absolute;
+right: -10px; top: -10px;
+font-size: 9rem;
+opacity: .05;
+transform: rotate(-20deg);
+pointer-events: none;
+}
+.header-inner {
+max-width: 960px;
+margin: 0 auto;
+display: flex;
+align-items: center;
+gap: 1rem;
+position: relative;
+z-index: 1;
+}
+.header-icon {
+background: var(–orange);
+width: 46px; height: 46px;
+border-radius: 12px;
+display: flex; align-items: center; justify-content: center;
+font-size: 1.4rem;
+flex-shrink: 0;
+box-shadow: 0 4px 16px rgba(255,95,31,.4);
+}
+.header-text h1 {
+font-size: 1.2rem;
+font-weight: 800;
+color: white;
+letter-spacing: -.02em;
+}
+.header-text p {
+font-size: .78rem;
+color: rgba(255,255,255,.6);
+margin-top: .1rem;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+max-width: 960px;
+margin: 0 auto;
+padding: 1.75rem 1rem 3rem;
+}
+
+/* ===== STEP PROGRESS ===== */
+.progress-wrap { margin-bottom: 2rem; }
+.steps-row {
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: .75rem;
+gap: 0;
+}
+.step-dot {
+width: 32px; height: 32px;
+border-radius: 50%;
+border: 2px solid var(–border);
+background: white;
+display: flex; align-items: center; justify-content: center;
+font-size: .72rem;
+font-weight: 700;
+color: var(–muted);
+transition: all .3s ease;
+flex-shrink: 0;
+position: relative;
+z-index: 1;
+}
+.step-dot.done { background: var(–navy); border-color: var(–navy); color: white; }
+.step-dot.active { background: var(–orange); border-color: var(–orange); color: white; box-shadow: 0 0 0 4px var(–orange-glow); }
+.step-line { flex: 1; height: 2px; background: var(–border); max-width: 60px; transition: background .3s; }
+.step-line.done { background: var(–navy); }
+.progress-label { text-align: center; font-size: .8rem; font-weight: 500; color: var(–muted); }
+.progress-label span { color: var(–navy); font-weight: 700; }
+
+/* ===== QUIZ CARD ===== */
+.quiz-step { display: none; }
+.quiz-step.active { display: block; animation: stepIn .35s cubic-bezier(.22,1,.36,1) both; }
+.quiz-step.leaving { animation: stepOut .25s ease forwards; }
+
+@keyframes stepIn { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes stepOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(-24px); } }
+@keyframes stepBackIn { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: translateX(0); } }
+
+.quiz-card {
+background: var(–card);
+border-radius: var(–radius-lg);
+padding: 2rem;
+box-shadow: var(–shadow-md);
+border: 1px solid rgba(255,255,255,.8);
+}
+.quiz-card .step-badge {
+display: inline-flex;
+align-items: center;
+gap: .4rem;
+background: var(–blue-light);
+color: var(–blue);
+font-size: .72rem;
+font-weight: 700;
+padding: .25rem .7rem;
+border-radius: 99px;
+margin-bottom: .9rem;
+text-transform: uppercase;
+letter-spacing: .05em;
+}
+.quiz-card h2 { font-size: 1.35rem; font-weight: 800; color: var(–navy); margin-bottom: .4rem; letter-spacing: -.02em; }
+.quiz-card .subtitle { color: var(–muted); font-size: .88rem; margin-bottom: 1.5rem; line-height: 1.5; }
+
+/* ===== SECTION LABEL ===== */
+.section-label {
+font-size: .78rem;
+font-weight: 700;
+color: var(–navy);
+text-transform: uppercase;
+letter-spacing: .07em;
+margin-bottom: .65rem;
+margin-top: 1.25rem;
+display: flex;
+align-items: center;
+gap: .4rem;
+}
+.section-label:first-child { margin-top: 0; }
+
+/* ===== OPTION BUTTONS ===== */
+.options-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+gap: .75rem;
+margin-bottom: .25rem;
+}
+.option-btn {
+border: 2px solid var(–border);
+background: var(–card);
+border-radius: var(–radius);
+padding: 1.1rem 1rem;
+cursor: pointer;
+text-align: left;
+transition: all .2s cubic-bezier(.22,1,.36,1);
+position: relative;
+overflow: hidden;
+}
+.option-btn::before {
+content: ‘’;
+position: absolute; inset: 0;
+background: linear-gradient(135deg, var(–orange-glow), transparent);
+opacity: 0;
+transition: opacity .2s;
+}
+.option-btn:hover { border-color: var(–orange); transform: translateY(-2px); box-shadow: var(–shadow-md); }
+.option-btn:hover::before { opacity: 1; }
+.option-btn.selected { border-color: var(–orange); background: white; box-shadow: 0 0 0 3px var(–orange-glow), var(–shadow-md); }
+.option-btn.selected::before { opacity: 1; }
+.option-btn .check-mark {
+position: absolute; top: .6rem; right: .6rem;
+width: 20px; height: 20px;
+background: var(–orange); border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+font-size: .65rem; color: white;
+opacity: 0; transform: scale(0);
+transition: all .2s cubic-bezier(.34,1.56,.64,1);
+}
+.option-btn.selected .check-mark { opacity: 1; transform: scale(1); }
+.option-icon { width: 42px; height: 42px; border-radius: 10px; background: var(–bg); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: .7rem; transition: background .2s; }
+.option-btn.selected .option-icon, .option-btn:hover .option-icon { background: rgba(255,95,31,.12); }
+.option-btn strong { display: block; font-size: .92rem; font-weight: 700; color: var(–navy); margin-bottom: .2rem; }
+.option-btn small { color: var(–muted); font-size: .75rem; line-height: 1.4; display: block; }
+
+/* Compact options (2 colonnes) */
+.options-grid-2 {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: .6rem;
+margin-bottom: .25rem;
+}
+.option-btn-sm {
+border: 2px solid var(–border);
+background: var(–card);
+border-radius: var(–radius-sm);
+padding: .75rem .9rem;
+cursor: pointer;
+text-align: left;
+transition: all .2s;
+position: relative;
+display: flex;
+align-items: center;
+gap: .6rem;
+}
+.option-btn-sm:hover { border-color: var(–orange); background: #fff8f5; }
+.option-btn-sm.selected { border-color: var(–orange); background: #fff3ee; box-shadow: 0 0 0 2px var(–orange-glow); }
+.option-btn-sm .osm-icon { font-size: 1.1rem; flex-shrink: 0; }
+.option-btn-sm .osm-text strong { display: block; font-size: .85rem; font-weight: 700; color: var(–navy); }
+.option-btn-sm .osm-text small { font-size: .72rem; color: var(–muted); }
+.option-btn-sm .check-mark {
+position: absolute; top: .4rem; right: .4rem;
+width: 16px; height: 16px; background: var(–orange); border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+font-size: .55rem; color: white;
+opacity: 0; transform: scale(0);
+transition: all .2s cubic-bezier(.34,1.56,.64,1);
+}
+.option-btn-sm.selected .check-mark { opacity: 1; transform: scale(1); }
+
+/* ===== CLASSEMENT FFTT ===== */
+.classement-wrap {
+margin-top: .25rem;
+}
+.classement-tabs {
+display: flex;
+gap: .4rem;
+margin-bottom: .9rem;
+}
+.classement-tab {
+flex: 1;
+padding: .5rem;
+border: 2px solid var(–border);
+border-radius: var(–radius-sm);
+background: white;
+font-size: .78rem;
+font-weight: 700;
+color: var(–muted);
+cursor: pointer;
+text-align: center;
+transition: all .18s;
+}
+.classement-tab.active { border-color: var(–navy); background: var(–navy); color: white; }
+.classement-panel { display: none; }
+.classement-panel.active { display: block; }
+
+/* Plages de points */
+.points-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+gap: .5rem;
+}
+.points-btn {
+border: 2px solid var(–border);
+background: white;
+border-radius: var(–radius-sm);
+padding: .6rem .5rem;
+cursor: pointer;
+text-align: center;
+transition: all .18s;
+position: relative;
+}
+.points-btn:hover { border-color: var(–orange); background: #fff8f5; }
+.points-btn.selected { border-color: var(–orange); background: #fff3ee; box-shadow: 0 0 0 2px var(–orange-glow); }
+.points-btn .pts-range { font-size: .88rem; font-weight: 800; color: var(–navy); display: block; }
+.points-btn .pts-label { font-size: .68rem; color: var(–muted); margin-top: .15rem; }
+.pts-badge {
+position: absolute; top: .3rem; right: .3rem;
+font-size: .6rem; font-weight: 700; padding: .1rem .3rem;
+border-radius: 4px;
+}
+.pts-badge.debutant { background: #d1fae5; color: #065f46; }
+.pts-badge.intermediaire { background: #dbeafe; color: #1d4ed8; }
+.pts-badge.confirme { background: #ede9fe; color: #5b21b6; }
+.pts-badge.avance { background: #fef3c7; color: #92400e; }
+.pts-badge.elite { background: #fee2e2; color: #991b1b; }
+
+/* Saisie libre */
+.input-wrap {
+display: flex;
+align-items: center;
+gap: .75rem;
+flex-wrap: wrap;
+}
+.input-classement {
+flex: 1;
+min-width: 140px;
+padding: .65rem .9rem;
+border: 2px solid var(–border);
+border-radius: var(–radius-sm);
+font-size: 1rem;
+font-family: inherit;
+font-weight: 700;
+color: var(–navy);
+outline: none;
+transition: border-color .18s;
+}
+.input-classement:focus { border-color: var(–orange); }
+.input-classement::placeholder { color: #cbd5e1; font-weight: 400; }
+.input-hint { font-size: .75rem; color: var(–muted); flex: 1; min-width: 160px; }
+.classement-result {
+margin-top: .75rem;
+padding: .6rem .85rem;
+border-radius: var(–radius-sm);
+font-size: .82rem;
+font-weight: 600;
+display: none;
+}
+.classement-result.visible { display: block; }
+.classement-result.debutant { background: #d1fae5; color: #065f46; border: 1px solid #bbf7d0; }
+.classement-result.intermediaire { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.classement-result.confirme { background: #ede9fe; color: #5b21b6; border: 1px solid #ddd6fe; }
+.classement-result.avance { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.classement-result.elite { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+/* ===== CHECKBOXES ===== */
+.check-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .5rem; }
+.check-btn {
+border: 2px solid var(–border); background: var(–card); border-radius: var(–radius-sm);
+padding: .7rem .9rem; cursor: pointer; display: flex; align-items: center; gap: .6rem;
+transition: all .18s; font-size: .85rem; color: var(–text-mid);
+}
+.check-btn:hover { border-color: var(–navy-light); background: #f8fafc; }
+.check-btn.selected { border-color: var(–navy); background: var(–blue-light); color: var(–navy); }
+.cb { width: 20px; height: 20px; border: 2px solid var(–border); border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .75rem; transition: all .15s; background: white; }
+.check-btn.selected .cb { background: var(–navy); border-color: var(–navy); color: white; }
+
+/* ===== SLIDERS ===== */
+.sliders-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem 1.5rem; }
+@media (max-width: 540px) { .sliders-grid { grid-template-columns: 1fr; } }
+.slider-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: .4rem; }
+.slider-name { font-size: .88rem; font-weight: 600; color: var(–navy); display: flex; align-items: center; gap: .35rem; }
+.slider-val { background: var(–navy); color: white; font-size: .75rem; font-weight: 700; padding: .2rem .55rem; border-radius: 99px; min-width: 32px; text-align: center; transition: background .2s; }
+.slider-hints { display: flex; justify-content: space-between; font-size: .65rem; color: var(–muted); margin-top: .25rem; }
+input[type=range] { width: 100%; height: 6px; appearance: none; -webkit-appearance: none; background: var(–border); border-radius: 99px; outline: none; cursor: pointer; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(–navy); border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,.2); cursor: pointer; transition: transform .15s; }
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+input[type=range].orange::-webkit-slider-thumb { background: var(–orange); }
+input[type=range].blue::-webkit-slider-thumb   { background: var(–blue); }
+input[type=range].green::-webkit-slider-thumb  { background: var(–green); }
+input[type=range].purple::-webkit-slider-thumb { background: var(–purple); }
+input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(–navy); border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,.2); cursor: pointer; }
+input[type=range]::-moz-range-track { background: var(–border); height: 6px; border-radius: 99px; }
+
+/* ===== NAV BUTTONS ===== */
+.nav-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 1.75rem; gap: .75rem; }
+.btn { border: none; border-radius: var(–radius-sm); padding: .7rem 1.5rem; font-size: .9rem; font-weight: 700; cursor: pointer; transition: all .18s; font-family: inherit; display: inline-flex; align-items: center; gap: .4rem; }
+.btn-primary { background: var(–navy); color: white; }
+.btn-primary:hover:not(:disabled) { background: var(–navy-light); transform: translateY(-1px); box-shadow: var(–shadow-md); }
+.btn-primary:disabled { background: #d1d5db; color: #9ca3af; cursor: not-allowed; }
+.btn-secondary { background: transparent; color: var(–muted); border: 2px solid var(–border); }
+.btn-secondary:hover { border-color: var(–navy); color: var(–navy); background: var(–blue-light); }
+.btn-cta { background: linear-gradient(135deg, var(–orange) 0%, var(–orange-dark) 100%); color: white; padding: .75rem 1.75rem; font-size: .95rem; border-radius: var(–radius-sm); box-shadow: 0 4px 16px rgba(255,95,31,.35); }
+.btn-cta:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,95,31,.45); }
+.btn-cta:disabled { background: #d1d5db; color: #9ca3af; box-shadow: none; cursor: not-allowed; }
+
+/* ===== RESULTS ===== */
+#results { display: none; }
+#results.visible { display: block; animation: fadeUp .4s ease both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+.results-hero {
+background: linear-gradient(135deg, var(–navy) 0%, var(–navy-mid) 100%);
+border-radius: var(–radius-lg); padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.results-hero h2 { font-size: 1.15rem; font-weight: 800; color: white; margin-bottom: .3rem; }
+.results-hero p { color: rgba(255,255,255,.6); font-size: .82rem; line-height: 1.5; }
+.tag-row { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
+.hero-tag { background: rgba(255,255,255,.12); color: rgba(255,255,255,.85); font-size: .72rem; font-weight: 600; padding: .25rem .65rem; border-radius: 99px; border: 1px solid rgba(255,255,255,.15); }
+.btn-reset { background: rgba(255,255,255,.12); color: white; border: 1px solid rgba(255,255,255,.2); border-radius: var(–radius-sm); padding: .6rem 1.1rem; font-size: .8rem; font-weight: 600; cursor: pointer; transition: all .18s; font-family: inherit; white-space: nowrap; }
+.btn-reset:hover { background: rgba(255,255,255,.2); }
+
+.section-title { font-size: 1rem; font-weight: 700; color: var(–navy); margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+.section-title::after { content: ‘’; flex: 1; height: 1px; background: var(–border); }
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1rem; }
+
+/* ===== PROFILE CARD ===== */
+.profile-card { background: var(–card); border-radius: var(–radius-lg); overflow: hidden; box-shadow: var(–shadow); border: 2px solid transparent; transition: transform .2s ease, box-shadow .2s ease; animation: cardIn .4s ease both; }
+.profile-card:hover { transform: translateY(-4px); box-shadow: var(–shadow-lg); }
+.profile-card.best-match { border-color: var(–orange); }
+@keyframes cardIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.profile-card:nth-child(1) { animation-delay: .05s; }
+.profile-card:nth-child(2) { animation-delay: .12s; }
+.profile-card:nth-child(3) { animation-delay: .19s; }
+.profile-card:nth-child(4) { animation-delay: .26s; }
+
+.profile-header { padding: 1.1rem 1.2rem .9rem; background: linear-gradient(135deg, var(–navy) 0%, var(–navy-mid) 100%); position: relative; overflow: hidden; }
+.profile-header.color-orange { background: linear-gradient(135deg, #7c2d12 0%, var(–orange-dark) 100%); }
+.profile-header.color-blue   { background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); }
+.profile-header.color-green  { background: linear-gradient(135deg, #064e3b 0%, #059669 100%); }
+.profile-header.color-purple { background: linear-gradient(135deg, #2e1065 0%, #7c3aed 100%); }
+.profile-header::after { content: attr(data-icon); position: absolute; right: -.5rem; bottom: -.5rem; font-size: 5rem; opacity: .12; pointer-events: none; }
+.ph-top { display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; margin-bottom: .6rem; }
+.ph-left { flex: 1; }
+.ph-title { font-size: 1rem; font-weight: 800; color: white; letter-spacing: -.01em; line-height: 1.2; }
+.ph-sub { font-size: .72rem; color: rgba(255,255,255,.6); margin-top: .2rem; }
+.best-badge { background: var(–orange); color: white; font-size: .65rem; font-weight: 700; padding: .2rem .55rem; border-radius: 99px; white-space: nowrap; text-transform: uppercase; letter-spacing: .05em; flex-shrink: 0; }
+.price-tag { font-size: .9rem; font-weight: 800; color: white; background: rgba(255,255,255,.15); display: inline-flex; align-items: center; gap: .25rem; padding: .3rem .7rem; border-radius: 99px; border: 1px solid rgba(255,255,255,.2); }
+.match-row { display: flex; align-items: center; gap: .6rem; background: rgba(255,255,255,.1); border-radius: 8px; padding: .4rem .65rem; }
+.match-label { font-size: .7rem; color: rgba(255,255,255,.7); flex-shrink: 0; }
+.match-track { flex: 1; height: 5px; background: rgba(255,255,255,.2); border-radius: 99px; overflow: hidden; }
+.match-fill { height: 100%; background: white; border-radius: 99px; width: 0; transition: width .8s cubic-bezier(.22,1,.36,1); }
+.match-pct { font-size: .78rem; font-weight: 700; color: white; flex-shrink: 0; min-width: 32px; text-align: right; }
+
+.profile-body { padding: 1rem 1.2rem; }
+.why-text { font-size: .8rem; color: var(–muted); line-height: 1.55; margin-bottom: .9rem; padding-bottom: .9rem; border-bottom: 1px solid var(–border); }
+.stat-bars { margin-bottom: .9rem; }
+.stat-row { display: flex; align-items: center; gap: .5rem; margin-bottom: .35rem; }
+.stat-name { font-size: .7rem; color: var(–muted); width: 52px; flex-shrink: 0; }
+.stat-track { flex: 1; height: 6px; background: var(–border); border-radius: 99px; overflow: hidden; }
+.stat-fill { height: 100%; border-radius: 99px; width: 0; transition: width .7s cubic-bezier(.22,1,.36,1); }
+.stat-num { font-size: .7rem; font-weight: 700; color: var(–text-mid); width: 24px; text-align: right; flex-shrink: 0; }
+
+.pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-bottom: .9rem; }
+@media (max-width: 360px) { .pros-cons { grid-template-columns: 1fr; } }
+.pros { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(–radius-sm); padding: .6rem .75rem; }
+.cons { background: #fff7ed; border: 1px solid #fed7aa; border-radius: var(–radius-sm); padding: .6rem .75rem; }
+.pros h5 { color: #15803d; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .35rem; }
+.cons h5 { color: #c2410c; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .35rem; }
+.pros ul, .cons ul { list-style: none; }
+.pros li { font-size: .73rem; line-height: 1.45; color: #166534; padding-left: .9rem; position: relative; }
+.cons li { font-size: .73rem; line-height: 1.45; color: #9a3412; padding-left: .9rem; position: relative; }
+.pros li::before { content: “✓”; position: absolute; left: 0; font-weight: 700; }
+.cons li::before { content: “✗”; position: absolute; left: 0; font-weight: 700; }
+
+.prod-section-title { display: flex; align-items: center; gap: .4rem; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(–muted); margin-bottom: .45rem; margin-top: .6rem; }
+.prod-section-title:first-child { margin-top: 0; }
+.product-row { background: #f8fafc; border: 1.5px solid var(–border); border-radius: var(–radius-sm); padding: .65rem .8rem; margin-bottom: .4rem; cursor: pointer; transition: all .18s; }
+.product-row:hover { border-color: var(–navy-light); background: var(–blue-light); transform: translateX(2px); }
+.pr-top { display: flex; justify-content: space-between; align-items: flex-start; gap: .5rem; }
+.pr-name { font-size: .83rem; font-weight: 700; color: var(–navy); }
+.pr-brand { font-size: .7rem; color: var(–muted); margin-top: .05rem; }
+.pr-price { font-size: .82rem; font-weight: 800; color: var(–orange); white-space: nowrap; }
+.pr-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+.pr-tag { font-size: .65rem; padding: .1rem .4rem; border-radius: 99px; font-weight: 600; }
+.pr-tag.spd { background: #fef3c7; color: #92400e; }
+.pr-tag.spi { background: #ede9fe; color: #5b21b6; }
+.pr-tag.ctl { background: #d1fae5; color: #065f46; }
+.pr-tag.def { background: #f3f4f6; color: #374151; }
+.pr-tag.ittf { background: #dbeafe; color: #1d4ed8; }
+
+/* ===== MODAL ===== */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(13,27,46,.65); backdrop-filter: blur(6px); z-index: 200; justify-content: center; align-items: center; padding: 1rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: white; border-radius: var(–radius-lg); max-width: 440px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: var(–shadow-lg); animation: modalIn .3s cubic-bezier(.22,1,.36,1) both; }
+@keyframes modalIn { from { opacity: 0; transform: scale(.92) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.modal-head { background: linear-gradient(135deg, var(–navy) 0%, var(–navy-mid) 100%); padding: 1.25rem 1.4rem 1rem; border-radius: var(–radius-lg) var(–radius-lg) 0 0; position: relative; }
+.modal-close { position: absolute; top: .9rem; right: .9rem; background: rgba(255,255,255,.15); border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: .85rem; transition: background .15s; }
+.modal-close:hover { background: rgba(255,255,255,.25); }
+.modal-head h3 { font-size: 1.1rem; font-weight: 800; color: white; padding-right: 2rem; }
+.modal-head .modal-brand { color: rgba(255,255,255,.6); font-size: .78rem; margin-top: .2rem; }
+.modal-body { padding: 1.2rem 1.4rem; }
+.modal-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: 1rem; }
+.mstat { background: #f8fafc; border: 1px solid var(–border); border-radius: var(–radius-sm); padding: .7rem .5rem; text-align: center; }
+.mstat-val { font-size: 1.4rem; font-weight: 900; color: var(–navy); line-height: 1; }
+.mstat-lbl { font-size: .68rem; color: var(–muted); margin-top: .2rem; text-transform: uppercase; letter-spacing: .05em; }
+.modal-desc { font-size: .84rem; color: var(–text-mid); line-height: 1.65; margin-bottom: 1rem; }
+.ittf-badge { display: inline-flex; align-items: center; gap: .35rem; background: var(–blue-light); color: var(–blue); font-size: .73rem; font-weight: 600; padding: .3rem .7rem; border-radius: 99px; margin-bottom: .8rem; border: 1px solid rgba(59,158,255,.2); }
+.modal-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+/* ===== STEP DOTS PETITS (12 étapes) ===== */
+.step-dot { width: 26px; height: 26px; font-size: .65rem; }
+.step-line { max-width: 22px; }
+
+/* ===== PART HEADER ===== */
+.part-header {
+display: flex; align-items: center; gap: .75rem;
+background: linear-gradient(135deg, var(–navy) 0%, var(–navy-mid) 100%);
+border-radius: var(–radius); padding: .75rem 1rem; margin-bottom: 1.25rem;
+}
+.part-header .part-icon { font-size: 1.4rem; flex-shrink: 0; }
+.part-header .part-title { font-size: .88rem; font-weight: 800; color: white; }
+.part-header .part-sub { font-size: .72rem; color: rgba(255,255,255,.6); margin-top: .1rem; }
+
+/* ===== INLINE OPTIONS ===== */
+.inline-options { display: flex; flex-direction: column; gap: .45rem; }
+.inline-opt {
+border: 2px solid var(–border); background: white; border-radius: var(–radius-sm);
+padding: .65rem 1rem; cursor: pointer; display: flex; align-items: center; gap: .75rem;
+transition: all .18s; text-align: left; position: relative; font-family: inherit;
+}
+.inline-opt:hover { border-color: var(–orange); background: #fff8f5; transform: translateX(3px); }
+.inline-opt.selected { border-color: var(–orange); background: #fff3ee; box-shadow: 0 0 0 2px var(–orange-glow); }
+.inline-opt .io-icon { font-size: 1.15rem; flex-shrink: 0; width: 28px; text-align: center; }
+.inline-opt .io-text { flex: 1; }
+.inline-opt .io-text strong { display: block; font-size: .88rem; font-weight: 700; color: var(–navy); }
+.inline-opt .io-text small { font-size: .72rem; color: var(–muted); line-height: 1.3; }
+.inline-opt .io-check {
+width: 20px; height: 20px; border-radius: 50%; background: var(–orange);
+display: flex; align-items: center; justify-content: center;
+font-size: .65rem; color: white; opacity: 0; transform: scale(0);
+transition: all .2s cubic-bezier(.34,1.56,.64,1); flex-shrink: 0;
+}
+.inline-opt.selected .io-check { opacity: 1; transform: scale(1); }
+
+/* ===== FREQ GRID ===== */
+.freq-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; }
+.freq-btn {
+border: 2px solid var(–border); background: white; border-radius: var(–radius);
+padding: 1rem .5rem; cursor: pointer; text-align: center; transition: all .18s; position: relative;
+}
+.freq-btn:hover { border-color: var(–orange); background: #fff8f5; transform: translateY(-2px); }
+.freq-btn.selected { border-color: var(–orange); background: #fff3ee; box-shadow: 0 0 0 2px var(–orange-glow); }
+.freq-btn .freq-num { font-size: 1.6rem; font-weight: 900; color: var(–navy); display: block; line-height: 1; }
+.freq-btn .freq-label { font-size: .7rem; color: var(–muted); margin-top: .3rem; }
+.freq-btn .freq-check {
+position: absolute; top: .35rem; right: .35rem; width: 16px; height: 16px; border-radius: 50%;
+background: var(–orange); display: flex; align-items: center; justify-content: center;
+font-size: .55rem; color: white; opacity: 0; transform: scale(0);
+transition: all .2s cubic-bezier(.34,1.56,.64,1);
+}
+.freq-btn.selected .freq-check { opacity: 1; transform: scale(1); }
+
+/* ===== TIP BOX ===== */
+.tip-box {
+background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+border: 1px solid #bfdbfe; border-radius: var(–radius-sm);
+padding: .6rem .85rem; font-size: .75rem; color: #1e40af;
+margin-bottom: 1rem; display: flex; align-items: flex-start; gap: .5rem;
+}
+.tip-box .tip-icon { flex-shrink: 0; font-size: .95rem; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+.quiz-card { padding: 1.4rem 1.1rem; }
+.quiz-card h2 { font-size: 1.15rem; }
+.options-grid { grid-template-columns: 1fr 1fr; }
+.options-grid-2 { grid-template-columns: 1fr; }
+.results-grid { grid-template-columns: 1fr; }
+.pros-cons { grid-template-columns: 1fr; }
+.results-hero { flex-direction: column; align-items: flex-start; }
+.points-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 400px) {
+.options-grid { grid-template-columns: 1fr; }
+.steps-row { gap: 0; }
+.step-line { max-width: 30px; }
+}
+</style>
+
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-inner">
+    <div class="header-icon">🏓</div>
+    <div class="header-text">
+      <h1>Conseiller Matériel Tennis de Table</h1>
+      <p>250+ produits · Algorithme de recommandation personnalisé</p>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div id="quiz">
+    <div class="progress-wrap">
+      <div class="steps-row" id="stepsRow">
+        <div class="step-dot active" id="sdot1">1</div>
+        <div class="step-line" id="sline1"></div>
+        <div class="step-dot" id="sdot2">2</div>
+        <div class="step-line" id="sline2"></div>
+        <div class="step-dot" id="sdot3">3</div>
+        <div class="step-line" id="sline3"></div>
+        <div class="step-dot" id="sdot4">4</div>
+        <div class="step-line" id="sline4"></div>
+        <div class="step-dot" id="sdot5">5</div>
+        <div class="step-line" id="sline5"></div>
+        <div class="step-dot" id="sdot6">6</div>
+        <div class="step-line" id="sline6"></div>
+        <div class="step-dot" id="sdot7">7</div>
+        <div class="step-line" id="sline7"></div>
+        <div class="step-dot" id="sdot8">8</div>
+        <div class="step-line" id="sline8"></div>
+        <div class="step-dot" id="sdot9">9</div>
+        <div class="step-line" id="sline9"></div>
+        <div class="step-dot" id="sdot10">10</div>
+        <div class="step-line" id="sline10"></div>
+        <div class="step-dot" id="sdot11">11</div>
+        <div class="step-line" id="sline11"></div>
+        <div class="step-dot" id="sdot12">12</div>
+      </div>
+      <div class="progress-label" id="stepLabel">Étape <span>1</span> sur 12 — Profil du joueur</div>
+    </div>
+
+```
+<!-- ===== STEP 1 : PROFIL DU JOUEUR ===== -->
+<div class="quiz-step active" id="step1">
+  <div class="quiz-card">
+    <div class="step-badge">👤 Étape 1</div>
+    <h2>Votre profil de joueur</h2>
+    <p class="subtitle">Ces informations nous permettent de calibrer précisément vos recommandations.</p>
+
+    <!-- Temps de pratique -->
+    <div class="section-label">⏱️ Temps de pratique</div>
+    <div class="options-grid-2">
+      <button class="option-btn-sm" onclick="selectPratique('decouverte',this)">
+        <div class="check-mark">✓</div>
+        <span class="osm-icon">🌱</span>
+        <div class="osm-text"><strong>Découverte</strong><small>Moins de 3 mois</small></div>
+      </button>
+      <button class="option-btn-sm" onclick="selectPratique('debutant',this)">
+        <div class="check-mark">✓</div>
+        <span class="osm-icon">📚</span>
+        <div class="osm-text"><strong>Débutant</strong><small>3 mois – 1 an</small></div>
+      </button>
+      <button class="option-btn-sm" onclick="selectPratique('intermediaire',this)">
+        <div class="check-mark">✓</div>
+        <span class="osm-icon">📈</span>
+        <div class="osm-text"><strong>En progression</strong><small>1 – 3 ans</small></div>
+      </button>
+      <button class="option-btn-sm" onclick="selectPratique('confirme',this)">
+        <div class="check-mark">✓</div>
+        <span class="osm-icon">🏅</span>
+        <div class="osm-text"><strong>Confirmé</strong><small>3 – 7 ans</small></div>
+      </button>
+      <button class="option-btn-sm" onclick="selectPratique('expert',this)">
+        <div class="check-mark">✓</div>
+        <span class="osm-icon">⭐</span>
+        <div class="osm-text"><strong>Expert</strong><small>7+ ans</small></div>
+      </button>
+      <button class="option-btn-sm" onclick="selectPratique('loisir',this)">
+        <div class="check-mark">✓</div>
+        <span class="osm-icon">🎉</span>
+        <div class="osm-text"><strong>Loisir / Récréatif</strong><small>Peu importe la durée</small></div>
+      </button>
+    </div>
+
+    <!-- Classement FFTT -->
+    <div class="section-label" style="margin-top:1.4rem">🏆 Classement FFTT <span style="font-weight:400;color:var(--muted);text-transform:none;font-size:.78rem">(optionnel)</span></div>
+    <div class="classement-wrap">
+      <div class="classement-tabs">
+        <button class="classement-tab active" onclick="switchClassTab('plage',this)">Par plage de points</button>
+        <button class="classement-tab" onclick="switchClassTab('libre',this)">Saisie libre</button>
+        <button class="classement-tab" onclick="switchClassTab('none',this)">Non classé</button>
+      </div>
+
+      <!-- Plages -->
+      <div class="classement-panel active" id="panel-plage">
+        <div class="points-grid">
+          <button class="points-btn" onclick="selectPlage('nc','nc',this)">
+            <span class="pts-range">NC</span>
+            <span class="pts-label">Non classé</span>
+            <span class="pts-badge debutant">Débutant</span>
+          </button>
+          <button class="points-btn" onclick="selectPlage('u500','< 500',this)">
+            <span class="pts-range">&lt; 500</span>
+            <span class="pts-label">Très débutant</span>
+            <span class="pts-badge debutant">Débutant</span>
+          </button>
+          <button class="points-btn" onclick="selectPlage('500_700','500–700',this)">
+            <span class="pts-range">500 – 700</span>
+            <span class="pts-label">Débutant avancé</span>
+            <span class="pts-badge debutant">Débutant</span>
+          </button>
+          <button class="points-btn" onclick="selectPlage('700_900','700–900',this)">
+            <span class="pts-range">700 – 900</span>
+            <span class="pts-label">Intermédiaire bas</span>
+            <span class="pts-badge intermediaire">Inter.</span>
+          </button>
+          <button class="points-btn" onclick="selectPlage('900_1100','900–1100',this)">
+            <span class="pts-range">900 – 1 100</span>
+            <span class="pts-label">Intermédiaire</span>
+            <span class="pts-badge intermediaire">Inter.</span>
+          </button>
+          <button class="points-btn" onclick="selectPlage('1100_1400','1100–1400',this)">
+            <span class="pts-range">1 100 – 1 400</span>
+            <span class="pts-label">Intermédiaire+</span>
+            <span class="pts-badge intermediaire">Inter.</span>
+          </button>
+          <button class="points-btn" onclick="selectPlage('1400_1700','1400–1700',this)">
+            <span class="pts-range">1 400 – 1 700</span>
+            <span class="pts-label">Confirmé</span>
+            <span class="pts-badge confirme">Confirmé</span>
+          </button>
+          <button class="points-btn" onclick="selectPlage('1700_2000','1700–2000',this)">
+            <span class="pts-range">1 700 – 2 000</span>
+            <span class="pts-label">Bon confirmé</span>
+            <span class="pts-badge confirme">Confirmé</span>
+          </button>
+          <button class="points-btn" onclick="selectPlage('2000_2300','2000–2300',this)">
+            <span class="pts-range">2 000 – 2 300</span>
+            <span class="pts-label">Avancé</span>
+            <span class="pts-badge avance">Avancé</span>
+          </button>
+          <button class="points-btn" onclick="selectPlage('2300plus','2 300+',this)">
+            <span class="pts-range">2 300 +</span>
+            <span class="pts-label">Élite nationale</span>
+            <span class="pts-badge elite">Élite</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Saisie libre -->
+      <div class="classement-panel" id="panel-libre">
+        <div class="input-wrap">
+          <input type="number" class="input-classement" id="inputClassement" placeholder="Ex: 1250" min="0" max="3000" oninput="evalClassementLibre(this.value)">
+          <span class="input-hint">Entrez vos points FFTT (entre 0 et 3000)</span>
+        </div>
+        <div class="classement-result" id="classResultLibre"></div>
+      </div>
+
+      <!-- Non classé -->
+      <div class="classement-panel" id="panel-none">
+        <div style="background:#f8fafc;border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem 1rem;font-size:.83rem;color:var(--muted);">
+          ℹ️ Pas de problème ! Votre recommandation sera basée uniquement sur votre temps de pratique et votre style de jeu.
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <div></div>
+      <button class="btn btn-primary" id="next1" disabled onclick="nextStep(1)">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STEP 2 : NIVEAU ===== -->
+<div class="quiz-step" id="step2">
+  <div class="quiz-card">
+    <div class="step-badge">🎮 Étape 2</div>
+    <h2>Confirmez votre niveau de jeu</h2>
+    <p class="subtitle" id="step2Subtitle">Basé sur vos informations, nous vous suggérons un niveau — ajustez si besoin.</p>
+    <div class="options-grid">
+      <button class="option-btn" onclick="selectOption('niveau','debutant',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">🌱</div>
+        <strong>Débutant</strong>
+        <small>Bases à acquérir, loisir ou moins de 1 an</small>
+      </button>
+      <button class="option-btn" onclick="selectOption('niveau','intermediaire',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">📈</div>
+        <strong>Intermédiaire</strong>
+        <small>Bases maîtrisées, progression en club</small>
+      </button>
+      <button class="option-btn" onclick="selectOption('niveau','confirme',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">🏆</div>
+        <strong>Confirmé</strong>
+        <small>Joueur de club régulier, compétiteur</small>
+      </button>
+      <button class="option-btn" onclick="selectOption('niveau','avance',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">⭐</div>
+        <strong>Avancé / Élite</strong>
+        <small>Haut niveau, optimisation fine</small>
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="prevStep(2)">← Retour</button>
+      <button class="btn btn-primary" id="next2" disabled onclick="nextStep(2)">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STEP 3 : STYLE ===== -->
+<div class="quiz-step" id="step3">
+  <div class="quiz-card">
+    <div class="step-badge">🎮 Étape 3</div>
+    <h2>Votre style de jeu</h2>
+    <p class="subtitle">Choisissez le style actuel ou celui que vous souhaitez développer.</p>
+    <div class="options-grid">
+      <button class="option-btn" onclick="selectOption('style','defenseur',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">🛡️</div>
+        <strong>Défenseur</strong>
+        <small>Régularité, blocs, attente de la faute adverse</small>
+      </button>
+      <button class="option-btn" onclick="selectOption('style','allround',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">⚖️</div>
+        <strong>All-Round</strong>
+        <small>Jeu équilibré, polyvalent, près/mi-distance</small>
+      </button>
+      <button class="option-btn" onclick="selectOption('style','attaquant',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">⚡</div>
+        <strong>Attaquant</strong>
+        <small>Smash, jeu rapide et direct, près de la table</small>
+      </button>
+      <button class="option-btn" onclick="selectOption('style','topspin',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">🌀</div>
+        <strong>Topspin / Loopeur</strong>
+        <small>Boucles, effets, construction des points</small>
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="prevStep(3)">← Retour</button>
+      <button class="btn btn-primary" id="next3" disabled onclick="nextStep(3)">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STEP 4 : PRÉCISIONS ===== -->
+<div class="quiz-step" id="step4">
+  <div class="quiz-card">
+    <div class="step-badge">🎮 Étape 4</div>
+    <h2>Quelques précisions</h2>
+    <p class="subtitle">Sélectionnez tout ce qui s'applique à vous.</p>
+    <div id="step4content"></div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="prevStep(4)">← Retour</button>
+      <button class="btn btn-primary" onclick="nextStep(4)">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STEP 5 : POINTS FAIBLES ===== -->
+<div class="quiz-step" id="step5">
+  <div class="quiz-card">
+    <div class="step-badge">🎮 Étape 5</div>
+    <h2>Points à améliorer</h2>
+    <p class="subtitle">Quels aspects souhaitez-vous renforcer ? (plusieurs choix possibles)</p>
+    <div class="check-grid">
+      <button class="check-btn" onclick="toggleCheck('faibles','vitesse',this)"><div class="cb"></div><span>⚡ Vitesse</span></button>
+      <button class="check-btn" onclick="toggleCheck('faibles','controle',this)"><div class="cb"></div><span>🎯 Contrôle</span></button>
+      <button class="check-btn" onclick="toggleCheck('faibles','spin',this)"><div class="cb"></div><span>🌀 Effet / Spin</span></button>
+      <button class="check-btn" onclick="toggleCheck('faibles','puissance',this)"><div class="cb"></div><span>💪 Puissance</span></button>
+      <button class="check-btn" onclick="toggleCheck('faibles','regularite',this)"><div class="cb"></div><span>🔄 Régularité</span></button>
+      <button class="check-btn" onclick="toggleCheck('faibles','service',this)"><div class="cb"></div><span>🎾 Service</span></button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="prevStep(5)">← Retour</button>
+      <button class="btn btn-primary" onclick="nextStep(5)">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STEP 6 : PRIORITÉS ===== -->
+<div class="quiz-step" id="step6">
+  <div class="quiz-card">
+    <div class="step-badge">🎮 Étape 6</div>
+    <h2>Vos priorités matériel</h2>
+    <p class="subtitle">Ajustez ce que vous recherchez dans votre équipement.</p>
+    <div class="sliders-grid">
+      <div class="slider-group">
+        <div class="slider-top">
+          <span class="slider-name">⚡ Vitesse</span>
+          <span class="slider-val" id="val_vitesse" style="background:var(--orange)">5</span>
+        </div>
+        <input type="range" class="orange" min="1" max="10" value="5" id="sl_vitesse" oninput="updateSlider('vitesse',this.value)">
+        <div class="slider-hints"><span>Contrôle</span><span>Explosivité</span></div>
+      </div>
+      <div class="slider-group">
+        <div class="slider-top">
+          <span class="slider-name">🎯 Contrôle</span>
+          <span class="slider-val" id="val_controle" style="background:var(--green)">5</span>
+        </div>
+        <input type="range" class="green" min="1" max="10" value="5" id="sl_controle" oninput="updateSlider('controle',this.value)">
+        <div class="slider-hints"><span>Risque</span><span>Sécurité</span></div>
+      </div>
+      <div class="slider-group">
+        <div class="slider-top">
+          <span class="slider-name">🌀 Spin / Effet</span>
+          <span class="slider-val" id="val_spin" style="background:var(--purple)">5</span>
+        </div>
+        <input type="range" class="purple" min="1" max="10" value="5" id="sl_spin" oninput="updateSlider('spin',this.value)">
+        <div class="slider-hints"><span>Neutre</span><span>Maximum</span></div>
+      </div>
+      <div class="slider-group">
+        <div class="slider-top">
+          <span class="slider-name">💪 Puissance</span>
+          <span class="slider-val" id="val_puissance" style="background:var(--blue)">5</span>
+        </div>
+        <input type="range" class="blue" min="1" max="10" value="5" id="sl_puissance" oninput="updateSlider('puissance',this.value)">
+        <div class="slider-hints"><span>Technique</span><span>Puissant</span></div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="prevStep(6)">← Retour</button>
+      <button class="btn btn-primary" onclick="nextStep(6)">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STEP 7 : BUDGET ===== -->
+<div class="quiz-step" id="step7">
+  <div class="quiz-card">
+    <div class="step-badge">🎮 Étape 7 — Dernière étape !</div>
+    <h2>Votre budget</h2>
+    <p class="subtitle">Pour l'ensemble : raquette complète, ou lame + 2 revêtements.</p>
+    <div class="options-grid">
+      <button class="option-btn" onclick="selectOption('budget','petit',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">💶</div>
+        <strong>Petit budget</strong>
+        <small>Moins de 50 € · Entrée de gamme</small>
+      </button>
+      <button class="option-btn" onclick="selectOption('budget','moyen',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">💰</div>
+        <strong>Budget moyen</strong>
+        <small>50 à 120 € · Intermédiaire/confirmé</small>
+      </button>
+      <button class="option-btn" onclick="selectOption('budget','confortable',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">💎</div>
+        <strong>Budget confortable</strong>
+        <small>120 à 250 € · Haut de gamme</small>
+      </button>
+      <button class="option-btn" onclick="selectOption('budget','premium',this)">
+        <div class="check-mark">✓</div>
+        <div class="option-icon">🏅</div>
+        <strong>Premium</strong>
+        <small>Plus de 250 € · Le meilleur sans compromis</small>
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="prevStep(7)">← Retour</button>
+      <button class="btn btn-primary" id="next7" disabled onclick="nextStep(7)">Suivant →</button>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+```
+<!-- ===== STEP 8 : ÉPONGE DURE OU SOUPLE ===== -->
+<div class="quiz-step" id="step8">
+  <div class="quiz-card">
+    <div class="step-badge">🎮 Étape 8</div>
+    <h2>Tu préfères une éponge dure ou souple ?</h2>
+    <p class="subtitle">Si tu as déjà joué avec différentes raquettes, quelle sensation tu as préférée ?</p>
+    <div class="inline-options">
+      <button class="inline-opt" onclick="selectInline('eponge','dure',this)">
+        <span class="io-icon">🪨</span>
+        <div class="io-text"><strong>Dure (38°–45°)</strong><small>Plus de vitesse et de spin, sensation directe — demande une bonne technique. On "sent" la balle taper dans l'éponge.</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('eponge','souple',this)">
+        <span class="io-icon">🧸</span>
+        <div class="io-text"><strong>Souple (35°–40°)</strong><small>Plus de contrôle et de feeling, pardonne les erreurs — idéale pour apprendre ou les joueurs qui aiment "toucher" la balle.</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('eponge','medium',this)">
+        <span class="io-icon">⚖️</span>
+        <div class="io-text"><strong>Medium / Équilibrée (37°–42°)</strong><small>Le compromis parfait — ni trop directif, ni trop mou. Idéal pour les joueurs polyvalents.</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('eponge','sais_pas',this)">
+        <span class="io-icon">🤷</span>
+        <div class="io-text"><strong>Je ne sais pas encore</strong><small>Pas de problème — on déterminera selon ton niveau et ton style de jeu.</small></div>
+        <span class="io-check">✓</span>
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="prevStep(8)">← Retour</button>
+      <button class="btn btn-primary" id="next8" disabled onclick="nextStep(8)">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STEP 9 : FRÉQUENCE D'ENTRAÎNEMENT ===== -->
+<div class="quiz-step" id="step9">
+  <div class="quiz-card">
+    <div class="step-badge">⚔️ Étape 9 — Style de jeu</div>
+    <h2>Combien d'entraînements par semaine ?</h2>
+    <div class="tip-box"><span class="tip-icon">💡</span><span>Important pour choisir entre une lame dynamique (carbon) ou plus classique (bois). Plus tu joues, plus tu peux gérer une lame rapide.</span></div>
+    <div class="freq-grid">
+      <button class="freq-btn" onclick="selectFreq('1',this)">
+        <span class="freq-check">✓</span>
+        <span class="freq-num">1</span>
+        <span class="freq-label">fois/sem.</span>
+      </button>
+      <button class="freq-btn" onclick="selectFreq('2',this)">
+        <span class="freq-check">✓</span>
+        <span class="freq-num">2</span>
+        <span class="freq-label">fois/sem.</span>
+      </button>
+      <button class="freq-btn" onclick="selectFreq('3',this)">
+        <span class="freq-check">✓</span>
+        <span class="freq-num">3</span>
+        <span class="freq-label">fois/sem.</span>
+      </button>
+      <button class="freq-btn" onclick="selectFreq('4+',this)">
+        <span class="freq-check">✓</span>
+        <span class="freq-num">4+</span>
+        <span class="freq-label">fois/sem.</span>
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="prevStep(9)">← Retour</button>
+      <button class="btn btn-primary" id="next9" disabled onclick="nextStep(9)">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STEP 10 : POINT FORT ===== -->
+<div class="quiz-step" id="step10">
+  <div class="quiz-card">
+    <div class="step-badge">⚔️ Étape 10</div>
+    <h2>Ton point fort principal ?</h2>
+    <p class="subtitle">Sois honnête — c'est la clé pour trouver le bon matériel.</p>
+    <div class="inline-options">
+      <button class="inline-opt" onclick="selectInline('pointFort','topspin',this)">
+        <span class="io-icon">🔥</span>
+        <div class="io-text"><strong>Topspin / rotation</strong><small>Tu génères beaucoup d'effet, tu aimes boucler et construire le point.</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('pointFort','frappe',this)">
+        <span class="io-icon">💥</span>
+        <div class="io-text"><strong>Frappe / finition</strong><small>Tu aimes taper fort, finir vite, jouer direct sans chercher à faire trop d'effet.</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('pointFort','placement',this)">
+        <span class="io-icon">🧠</span>
+        <div class="io-text"><strong>Placement / contrôle</strong><small>Tu joues intelligent, tu places la balle, tu attends la bonne balle pour attaquer.</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('pointFort','defense',this)">
+        <span class="io-icon">🛡️</span>
+        <div class="io-text"><strong>Bloc / défense</strong><small>Tu annules les attaques, tu blocs, tu es très régulier et tu fais fauter l'adversaire.</small></div>
+        <span class="io-check">✓</span>
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="prevStep(10)">← Retour</button>
+      <button class="btn btn-primary" id="next10" disabled onclick="nextStep(10)">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STEP 11 : MULTI-QUESTIONS STYLE ===== -->
+<div class="quiz-step" id="step11">
+  <div class="quiz-card">
+    <div class="step-badge">⚔️ Étape 11</div>
+    <h2>Parlons de ta réalité de jeu</h2>
+    <p class="subtitle">Réponds honnêtement — ces questions sont ultra-puissantes pour calibrer tes recommandations.</p>
+
+    <div class="section-label" style="margin-top:0">❌ Quand tu perds un point, c'est souvent parce que :</div>
+    <div class="inline-options" id="pertePointsOpts">
+      <button class="inline-opt" onclick="selectInline('pertePt','faute_directe',this,'pertePointsOpts')">
+        <span class="io-icon">💨</span>
+        <div class="io-text"><strong>Je fais la faute direct</strong><small>→ Besoin de plus de contrôle</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('pertePt','manque_puissance',this,'pertePointsOpts')">
+        <span class="io-icon">💪</span>
+        <div class="io-text"><strong>Je manque de puissance</strong><small>→ Besoin d'une lame plus rapide</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('pertePt','manque_effet',this,'pertePointsOpts')">
+        <span class="io-icon">🌀</span>
+        <div class="io-text"><strong>Je manque d'effet</strong><small>→ Besoin d'un revêtement plus grippy</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('pertePt','mal_place',this,'pertePointsOpts')">
+        <span class="io-icon">🏃</span>
+        <div class="io-text"><strong>Je suis mal placé</strong><small>→ Question de jeu, pas de matos</small></div>
+        <span class="io-check">✓</span>
+      </button>
+    </div>
+
+    <div class="section-label">🏓 Sur balle coupée, tu fais quoi ?</div>
+    <div class="inline-options" id="balleCoupeeOpts">
+      <button class="inline-opt" onclick="selectInline('balleCoupee','pousse',this,'balleCoupeeOpts')">
+        <span class="io-icon">➡️</span>
+        <div class="io-text"><strong>Je pousse</strong><small>→ Niveau débutant/intermédiaire bas</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('balleCoupee','tente_rate',this,'balleCoupeeOpts')">
+        <span class="io-icon">😬</span>
+        <div class="io-text"><strong>J'essaie de toper mais je rate souvent</strong><small>→ Technique en cours d'acquisition</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('balleCoupee','top_rotation',this,'balleCoupeeOpts')">
+        <span class="io-icon">🌀</span>
+        <div class="io-text"><strong>Je top rotation correctement</strong><small>→ Bon niveau technique</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('balleCoupee','frappe',this,'balleCoupeeOpts')">
+        <span class="io-icon">💥</span>
+        <div class="io-text"><strong>Je frappe à plat</strong><small>→ Attaquant pur, cherche la finition directe</small></div>
+        <span class="io-check">✓</span>
+      </button>
+    </div>
+
+    <div class="section-label">🎯 Ton revers :</div>
+    <div class="inline-options" id="reversOpts">
+      <button class="inline-opt" onclick="selectInline('revers','faible',this,'reversOpts')">
+        <span class="io-icon">😕</span>
+        <div class="io-text"><strong>Faible</strong><small>Je préfère tout jouer côté coup droit</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('revers','correct',this,'reversOpts')">
+        <span class="io-icon">👍</span>
+        <div class="io-text"><strong>Correct</strong><small>Je m'en sors bien, sans être mon arme</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('revers','arme',this,'reversOpts')">
+        <span class="io-icon">⚔️</span>
+        <div class="io-text"><strong>Arme principale</strong><small>Mon revers est mon meilleur coup</small></div>
+        <span class="io-check">✓</span>
+      </button>
+    </div>
+
+    <div class="section-label">📍 Tu préfères jouer :</div>
+    <div class="inline-options" id="positionOpts">
+      <button class="inline-opt" onclick="selectInline('position','proche',this,'positionOpts')">
+        <span class="io-icon">🔵</span>
+        <div class="io-text"><strong>Proche de la table</strong><small>Tu attaques vite, tu bloques, tu prends la balle tôt</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('position','midist',this,'positionOpts')">
+        <span class="io-icon">🟢</span>
+        <div class="io-text"><strong>Mi-distance</strong><small>Tu construis les points, tu alternes proche et mi-distance</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('position','loin',this,'positionOpts')">
+        <span class="io-icon">🔴</span>
+        <div class="io-text"><strong>Loin de la table</strong><small>Tu défends en fond, tu joues chop ou défense lointaine</small></div>
+        <span class="io-check">✓</span>
+      </button>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="prevStep(11)">← Retour</button>
+      <button class="btn btn-primary" id="next11" onclick="nextStep(11)">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STEP 12 : SENSATIONS + OBJECTIF ===== -->
+<div class="quiz-step" id="step12">
+  <div class="quiz-card">
+    <div class="step-badge">🎯 Étape 12 — Tes sensations</div>
+    <h2>Tes sensations et ton objectif</h2>
+    <p class="subtitle">Le plus important — tu choisis ton matos sans le savoir.</p>
+
+    <div class="section-label" style="margin-top:0">⚡ Tu préfères une raquette :</div>
+    <div class="inline-options" id="prefRaquetteOpts">
+      <button class="inline-opt" onclick="selectInline('prefRaquette','controlable',this,'prefRaquetteOpts')">
+        <span class="io-icon">🎯</span>
+        <div class="io-text"><strong>Très contrôlable</strong><small>Tu veux être sûr de tes coups avant tout</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('prefRaquette','equilibree',this,'prefRaquetteOpts')">
+        <span class="io-icon">⚖️</span>
+        <div class="io-text"><strong>Équilibrée</strong><small>Un bon mix vitesse + contrôle</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('prefRaquette','rapide',this,'prefRaquetteOpts')">
+        <span class="io-icon">🚀</span>
+        <div class="io-text"><strong>Très rapide</strong><small>Tu veux de la vitesse explosive</small></div>
+        <span class="io-check">✓</span>
+      </button>
+    </div>
+
+    <div class="section-label">😤 Tu ressens quoi avec ton matos actuel ?</div>
+    <div class="inline-options" id="ressentiOpts">
+      <button class="inline-opt" onclick="selectInline('ressenti','trop_rapide',this,'ressentiOpts')">
+        <span class="io-icon">💨</span>
+        <div class="io-text"><strong>Trop rapide</strong><small>La balle part trop vite, je fais des fautes</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('ressenti','trop_lent',this,'ressentiOpts')">
+        <span class="io-icon">🐢</span>
+        <div class="io-text"><strong>Trop lent</strong><small>Mes coups manquent de vitesse et de pénétration</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('ressenti','manque_effet',this,'ressentiOpts')">
+        <span class="io-icon">🌀</span>
+        <div class="io-text"><strong>Manque d'effet</strong><small>Mes topspins ne mordent pas assez</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('ressenti','pas_stable',this,'ressentiOpts')">
+        <span class="io-icon">😵</span>
+        <div class="io-text"><strong>Pas stable / instable</strong><small>Je ne suis pas à l'aise, manque de régularité</small></div>
+        <span class="io-check">✓</span>
+      </button>
+    </div>
+
+    <div class="section-label">🏆 Ton objectif principal :</div>
+    <div class="inline-options" id="objectifOpts">
+      <button class="inline-opt" onclick="selectInline('objectif','progresser',this,'objectifOpts')">
+        <span class="io-icon">🔵</span>
+        <div class="io-text"><strong>Progresser techniquement</strong><small>Je veux apprendre, m'améliorer, monter en niveau</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('objectif','gagner',this,'objectifOpts')">
+        <span class="io-icon">🔴</span>
+        <div class="io-text"><strong>Gagner plus de matchs</strong><small>Je veux un matos qui me donne un avantage direct</small></div>
+        <span class="io-check">✓</span>
+      </button>
+      <button class="inline-opt" onclick="selectInline('objectif','plaisir',this,'objectifOpts')">
+        <span class="io-icon">🟢</span>
+        <div class="io-text"><strong>Prendre du plaisir</strong><small>Je joue pour le fun, le feeling compte plus que la performance</small></div>
+        <span class="io-check">✓</span>
+      </button>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn btn-secondary" onclick="prevStep(12)">← Retour</button>
+      <button class="btn btn-cta" id="next12" disabled onclick="generateResults()">Voir mes recommandations 🏓</button>
+    </div>
+  </div>
+</div>
+```
+
+  <!-- RESULTS -->
+
+  <div id="results">
+    <div class="results-hero">
+      <div>
+        <h2>Vos recommandations personnalisées</h2>
+        <p id="heroDesc">Analyse de votre profil terminée</p>
+        <div class="tag-row" id="heroTags"></div>
+      </div>
+      <button class="btn-reset" onclick="resetQuiz()">🔄 Recommencer</button>
+    </div>
+    <p class="section-title">Profils recommandés</p>
+    <div class="results-grid" id="resultsGrid"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+// ============================================================
+//  BASES DE DONNÉES ENRICHIES
+// ============================================================
+
+const RUBBERS = [
+  // --- BUTTERFLY TENERGY ---
+  { id:'ten05',    name:'Tenergy 05',      brand:'Butterfly', type:'inverted', speed:9.5, spin:9.5, control:7,   hardness:'dur',       priceRange:55, ittf:true,  categ:'offensive',
+    desc:"La référence mondiale depuis 2008. Springy Sponge Technology pour un grip exceptionnel et un rebond explosif. Idéal pour le jeu topspin moderne." },
+  { id:'ten64',    name:'Tenergy 64',      brand:'Butterfly', type:'inverted', speed:9.5, spin:9,   control:7.5, hardness:'dur',       priceRange:55, ittf:true,  categ:'offensive',
+    desc:"Version plus rapide et directe du Tenergy 05, favorisant le jeu à plat et les smashes rapides." },
+  { id:'ten80',    name:'Tenergy 80',      brand:'Butterfly', type:'inverted', speed:9.5, spin:9.2, control:7.5, hardness:'dur',       priceRange:55, ittf:true,  categ:'offensive',
+    desc:"Compromis entre le 05 et le 64 — très complet pour les joueurs modernes polyvalents." },
+  { id:'ten25',    name:'Tenergy 25',      brand:'Butterfly', type:'inverted', speed:9,   spin:9,   control:8,   hardness:'medium',    priceRange:55, ittf:true,  categ:'offensive',
+    desc:"Idéal pour le jeu latéral et les sidespin. Plus contrôlable que le 05." },
+  { id:'ten05fx',  name:'Tenergy 05 FX',   brand:'Butterfly', type:'inverted', speed:9,   spin:9,   control:8,   hardness:'souple',    priceRange:55, ittf:true,  categ:'offensive',
+    desc:"Version souple du Tenergy 05, plus facile à maîtriser tout en conservant un excellent spin." },
+  { id:'ten19',    name:'Tenergy 19',       brand:'Butterfly', type:'inverted', speed:9.5, spin:9.5, control:7.5, hardness:'dur',       priceRange:55, ittf:true,  categ:'offensive',
+    desc:"Dernière-née des Tenergy. Texture de picots nouvelle génération pour encore plus de spin et de rebond." },
+  // --- BUTTERFLY DIGNICS ---
+  { id:'dig05',    name:'Dignics 05',       brand:'Butterfly', type:'inverted', speed:10,  spin:10,  control:7,   hardness:'extra-dur', priceRange:65, ittf:true,  categ:'offensive',
+    desc:"Le haut de gamme Butterfly — puissance et spin inégalés, mais exige une technique solide." },
+  { id:'dig09c',   name:'Dignics 09C',      brand:'Butterfly', type:'inverted', speed:9.5, spin:10,  control:7.5, hardness:'extra-dur', priceRange:65, ittf:true,  categ:'offensive',
+    desc:"Spin phénoménal avec la technologie Spring Sponge X. Excellent pour les loops puissants." },
+  { id:'dig64',    name:'Dignics 64',        brand:'Butterfly', type:'inverted', speed:10,  spin:9.5, control:7.5, hardness:'dur',       priceRange:65, ittf:true,  categ:'offensive',
+    desc:"Vitesse maximale de la gamme Dignics. Pour les attaquants purs cherchant la rapidité absolue." },
+  { id:'dig80',    name:'Dignics 80',        brand:'Butterfly', type:'inverted', speed:10,  spin:9.5, control:7.5, hardness:'dur',       priceRange:65, ittf:true,  categ:'offensive',
+    desc:"Équilibre entre vitesse et spin dans la gamme Dignics. Très polyvalent pour le haut niveau." },
+  { id:'rozena',   name:'Rozena',            brand:'Butterfly', type:'inverted', speed:8.5, spin:8.5, control:8.5, hardness:'medium',    priceRange:45, ittf:true,  categ:'intermediaire',
+    desc:"Spring Sponge accessible — idéal pour les joueurs intermédiaires voulant progresser." },
+  { id:'sriver',   name:'Sriver',            brand:'Butterfly', type:'inverted', speed:7.5, spin:8,   control:8.5, hardness:'medium',    priceRange:30, ittf:true,  categ:'intermediaire',
+    desc:"Un classique intemporel. Fiable, régulier, bon pour apprendre les fondamentaux." },
+  { id:'addoy',    name:'Addoy',             brand:'Butterfly', type:'inverted', speed:6,   spin:7,   control:9.5, hardness:'souple',    priceRange:18, ittf:false, categ:'debutant',
+    desc:"Revêtement idéal pour les débutants absolus — très forgiving et facile à contrôler." },
+  { id:'spinart',  name:'Spinart',           brand:'Butterfly', type:'inverted', speed:7,   spin:8,   control:9,   hardness:'souple',    priceRange:25, ittf:true,  categ:'debutant',
+    desc:"Bon revêtement d'initiation avec un peu plus de spin que l'Addoy." },
+
+  // --- TIBHAR ---
+  { id:'evomxp',   name:'Evolution MX-P',    brand:'Tibhar', type:'inverted', speed:9,   spin:9,   control:8,   hardness:'medium',    priceRange:45, ittf:true, categ:'offensive',
+    desc:"La référence européenne de milieu/haut de gamme. Excellent équilibre vitesse/spin/contrôle." },
+  { id:'evomxs',   name:'Evolution MX-S',    brand:'Tibhar', type:'inverted', speed:8.5, spin:9.5, control:8,   hardness:'medium',    priceRange:45, ittf:true, categ:'offensive',
+    desc:"Version plus axée spin que le MX-P. Idéal pour les loopeurs exigeants." },
+  { id:'evomxp52', name:'Evolution MX-P 52.5', brand:'Tibhar', type:'inverted', speed:9.5, spin:9.5, control:7.5, hardness:'dur',    priceRange:50, ittf:true, categ:'offensive',
+    desc:"Éponge extra-dure 52,5° pour des performances maximales en compétition de haut niveau." },
+  { id:'evofxp',   name:'Evolution FX-P',    brand:'Tibhar', type:'inverted', speed:8.5, spin:8.5, control:8.5, hardness:'souple',    priceRange:45, ittf:true, categ:'intermediaire',
+    desc:"Éponge souple pour plus de feeling et de contrôle. Bon pour les joueurs en progression." },
+  { id:'evoelp',   name:'Evolution EL-P',    brand:'Tibhar', type:'inverted', speed:8,   spin:8.5, control:9,   hardness:'souple',    priceRange:40, ittf:true, categ:'intermediaire',
+    desc:"Très contrôlable avec bon spin. Adapté au jeu all-round et aux débutants avancés." },
+  { id:'nimbus',   name:'Nimbus Sound',       brand:'Tibhar', type:'inverted', speed:7,   spin:7.5, control:9,   hardness:'souple',    priceRange:28, ittf:true, categ:'debutant',
+    desc:"Revêtement d'apprentissage par excellence. Forgiving et précis." },
+  { id:'tibhar1q', name:'1Q',                 brand:'Tibhar', type:'inverted', speed:9,   spin:9,   control:8,   hardness:'dur',       priceRange:48, ittf:true, categ:'offensive',
+    desc:"Technologie 4D pour un rebond vif et un effet intense. Excellent rapport qualité-prix haut de gamme." },
+  { id:'aurusprime',name:'Aurus Prime',        brand:'Tibhar', type:'inverted', speed:8.5, spin:9,   control:8.5, hardness:'medium',    priceRange:40, ittf:true, categ:'intermediaire',
+    desc:"Version améliorée de l'Aurus — bon grip, jeu régulier et précis." },
+  { id:'hybridmxp52',name:'Hybrid MX-P 52.5', brand:'Tibhar', type:'inverted', speed:9.5, spin:9.5, control:7.5, hardness:'dur',      priceRange:52, ittf:true, categ:'offensive',
+    desc:"Éponge hybride innovative alliant le meilleur des technologies européenne et asiatique." },
+  { id:'aurus',    name:'Aurus',               brand:'Tibhar', type:'inverted', speed:8,   spin:8.5, control:8.5, hardness:'medium',   priceRange:35, ittf:true, categ:'intermediaire',
+    desc:"Revêtement intermédiaire polyvalent — bon grip, bon rapport qualité-prix pour le club." },
+  { id:'speedster', name:'Speedster',          brand:'Tibhar', type:'inverted', speed:9,   spin:8.5, control:8,   hardness:'medium',   priceRange:38, ittf:true, categ:'offensive',
+    desc:"Orienté vitesse avec un bon feeling. Idéal pour les attaquants qui aiment jouer vite et plat." },
+
+  // --- DONIC ---
+  { id:'bluefirem1', name:'Bluefire M1',      brand:'Donic', type:'inverted', speed:9,   spin:9,   control:8,   hardness:'medium',    priceRange:42, ittf:true, categ:'offensive',
+    desc:"La Bluefire M1 est explosive avec un bon grip. Très apprécié en compétition européenne." },
+  { id:'bluefirem2', name:'Bluefire M2',      brand:'Donic', type:'inverted', speed:8.5, spin:8.5, control:8.5, hardness:'medium',    priceRange:40, ittf:true, categ:'intermediaire',
+    desc:"Plus contrôlable que la M1, idéal pour les joueurs en développement cherchant un bon spin." },
+  { id:'bluefirem3', name:'Bluefire M3',      brand:'Donic', type:'inverted', speed:8,   spin:8,   control:9,   hardness:'souple',    priceRange:38, ittf:true, categ:'intermediaire',
+    desc:"La version la plus douce de la Bluefire — excellente pour le contrôle et la régularité." },
+  { id:'bluefirejp01',name:'Bluefire JP 01',  brand:'Donic', type:'inverted', speed:9,   spin:9.5, control:8,   hardness:'dur',       priceRange:46, ittf:true, categ:'offensive',
+    desc:"Éponge japonaise très poreuse — spin exceptionnel, rebond vif. Très populaire en compétition." },
+  { id:'baracuda',   name:'Baracuda',          brand:'Donic', type:'inverted', speed:8,   spin:8,   control:8.5, hardness:'medium',    priceRange:38, ittf:true, categ:'intermediaire',
+    desc:"Revêtement all-round très polyvalent, excellent pour le jeu court et les techniques avancées." },
+  { id:'acudas1',    name:'Acuda S1',          brand:'Donic', type:'inverted', speed:9,   spin:9.5, control:7.5, hardness:'dur',       priceRange:48, ittf:true, categ:'offensive',
+    desc:"Très haut spin avec une éponge cellulaire innovante. Explosif et précis en topspin." },
+  { id:'acudas2',    name:'Acuda S2',          brand:'Donic', type:'inverted', speed:8.5, spin:9,   control:8,   hardness:'medium',    priceRange:44, ittf:true, categ:'offensive',
+    desc:"Bon équilibre de la gamme Acuda — une valeur sûre pour les joueurs confirmés." },
+  { id:'acudas3',    name:'Acuda S3',          brand:'Donic', type:'inverted', speed:8,   spin:8.5, control:8.5, hardness:'souple',    priceRange:40, ittf:true, categ:'intermediaire',
+    desc:"Version souple de l'Acuda — excellent pour progresser avec du spin et de la sécurité." },
+  { id:'coppax1turbo',name:'Coppa X1 Turbo',  brand:'Donic', type:'inverted', speed:8.5, spin:8.5, control:8.5, hardness:'dur',       priceRange:45, ittf:true, categ:'offensive',
+    desc:"Revêtement classique amélioré — vitesse, précision, et bonne durabilité." },
+  { id:'waldnersenso',name:'Waldner Senso Ultra Carbon', brand:'Donic', type:'inverted', speed:9, spin:9, control:8, hardness:'dur',   priceRange:46, ittf:true, categ:'offensive',
+    desc:"Revêtement du champion Jan-Ove Waldner — technologie carbone pour la performance ultime." },
+
+  // --- STIGA ---
+  { id:'mantram',   name:'Mantra M',          brand:'Stiga', type:'inverted', speed:8.5, spin:8.5, control:8.5, hardness:'medium',    priceRange:40, ittf:true, categ:'intermediaire',
+    desc:"Très polyvalent et précis. La version medium de la Mantra offre le meilleur équilibre." },
+  { id:'mantras',   name:'Mantra S',          brand:'Stiga', type:'inverted', speed:8,   spin:8,   control:9,   hardness:'souple',    priceRange:38, ittf:true, categ:'intermediaire',
+    desc:"Souplesse et contrôle pour les joueurs cherchant la régularité avant tout." },
+  { id:'mantrah',   name:'Mantra H',          brand:'Stiga', type:'inverted', speed:9,   spin:9,   control:8,   hardness:'dur',       priceRange:42, ittf:true, categ:'offensive',
+    desc:"Version dure et explosive de la Mantra. Bon pour les attaquants modernes." },
+  { id:'dnadragongrip',name:'DNA Dragon Grip', brand:'Stiga', type:'inverted', speed:9.5, spin:10, control:7.5, hardness:'dur',       priceRange:55, ittf:true, categ:'offensive',
+    desc:"Technologie Dragon Grip pour un spin phénoménal. Parmi les meilleures revêtements topspin du marché." },
+  { id:'dnaprom',   name:'DNA Pro M',         brand:'Stiga', type:'inverted', speed:9,   spin:9.5, control:8,   hardness:'medium',    priceRange:50, ittf:true, categ:'offensive',
+    desc:"Excellent rapport performance/maîtrise dans la gamme DNA Pro. Recommandé pour les confirmés." },
+  { id:'dnapros',   name:'DNA Pro S',         brand:'Stiga', type:'inverted', speed:8.5, spin:9,   control:8.5, hardness:'souple',    priceRange:48, ittf:true, categ:'intermediaire',
+    desc:"Version souple du DNA Pro pour plus de feeling. Accessible aux joueurs intermédiaires." },
+  { id:'dnaplatinum', name:'DNA Platinum XH', brand:'Stiga', type:'inverted', speed:10,  spin:10,  control:7,   hardness:'extra-dur', priceRange:58, ittf:true, categ:'offensive',
+    desc:"Le summum de la gamme DNA — éponge extra-dure pour l'élite exigeant vitesse et spin absolus." },
+  { id:'calibralt', name:'Calibra LT',        brand:'Stiga', type:'inverted', speed:8,   spin:8,   control:8.5, hardness:'medium',    priceRange:35, ittf:true, categ:'intermediaire',
+    desc:"Revêtement solide, régulier et durable. Bon choix pour le jeu de club." },
+  { id:'calibrasound',name:'Calibra Sound',   brand:'Stiga', type:'inverted', speed:7.5, spin:7.5, control:9,   hardness:'souple',    priceRange:30, ittf:true, categ:'debutant',
+    desc:"Excellent pour débuter en club — bon feeling, contrôle élevé et bon son." },
+
+  // --- YASAKA ---
+  { id:'rakza7',    name:'Rakza 7',            brand:'Yasaka', type:'inverted', speed:8.5, spin:9,   control:8.5, hardness:'medium',   priceRange:42, ittf:true, categ:'offensive',
+    desc:"Un des revêtements les plus populaires en Europe. Excellent équilibre, bon grip, polyvalent." },
+  { id:'rakzax',    name:'Rakza X',            brand:'Yasaka', type:'inverted', speed:9,   spin:9,   control:8,   hardness:'dur',      priceRange:45, ittf:true, categ:'offensive',
+    desc:"Version explosive de la Rakza — pour les attaquants qui veulent plus de puissance." },
+  { id:'rakza9',    name:'Rakza 9',            brand:'Yasaka', type:'inverted', speed:9,   spin:9.5, control:8,   hardness:'dur',      priceRange:47, ittf:true, categ:'offensive',
+    desc:"Spin et vitesse optimisés pour le jeu topspin moderne à haut niveau." },
+  { id:'rakza7s',   name:'Rakza 7 Soft',       brand:'Yasaka', type:'inverted', speed:8,   spin:8.5, control:9,   hardness:'souple',   priceRange:40, ittf:true, categ:'intermediaire',
+    desc:"Version souple de la Rakza 7 — parfait pour les joueurs cherchant le contrôle avec du spin." },
+  { id:'markv',     name:'Mark V',             brand:'Yasaka', type:'inverted', speed:7.5, spin:7.5, control:9,   hardness:'souple',   priceRange:28, ittf:true, categ:'debutant',
+    desc:"Un classique intemporel utilisé par des millions de joueurs. Idéal pour apprendre." },
+  { id:'rasputin',  name:'Rasputin',           brand:'Yasaka', type:'inverted', speed:9.5, spin:9.5, control:7.5, hardness:'dur',      priceRange:52, ittf:true, categ:'offensive',
+    desc:"Revêtement haute performance de nouvelle génération chez Yasaka — spin et vitesse au top." },
+
+  // --- XIOM ---
+  { id:'vegaasia',  name:'Vega Asia',          brand:'Xiom', type:'inverted', speed:8.5, spin:9,   control:8.5, hardness:'medium',    priceRange:38, ittf:true, categ:'offensive',
+    desc:"Grip chinois avec éponge européenne — le meilleur des deux mondes. Très populaire." },
+  { id:'vegaeurope',name:'Vega Europe',        brand:'Xiom', type:'inverted', speed:8,   spin:8.5, control:9,   hardness:'souple',    priceRange:35, ittf:true, categ:'intermediaire',
+    desc:"Version plus contrôlable de la Vega. Idéal pour les joueurs all-round intermédiaires." },
+  { id:'vegapro',   name:'Vega Pro',           brand:'Xiom', type:'inverted', speed:9,   spin:9,   control:8,   hardness:'dur',       priceRange:42, ittf:true, categ:'offensive',
+    desc:"Haut de gamme de la gamme Vega, puissant et précis pour les confirmés." },
+  { id:'vegachina', name:'Vega China',         brand:'Xiom', type:'inverted', speed:9,   spin:9.5, control:7.5, hardness:'dur',       priceRange:40, ittf:true, categ:'offensive',
+    desc:"Revêtement de style chinois — excellent spin, idéal pour les loops lourds." },
+  { id:'omega7china',name:'Omega VII China',   brand:'Xiom', type:'inverted', speed:9.5, spin:10,  control:7,   hardness:'dur',       priceRange:52, ittf:true, categ:'offensive',
+    desc:"Le summum du spin dans la gamme Xiom. Ultra-performant, exige une bonne technique." },
+  { id:'omega7tour', name:'Omega VII Tour',    brand:'Xiom', type:'inverted', speed:9,   spin:9.5, control:8,   hardness:'medium',    priceRange:50, ittf:true, categ:'offensive',
+    desc:"Bon équilibre spin/contrôle dans la gamme Omega VII. Très apprécié en compétition." },
+  { id:'omega5europe',name:'Omega V Europe',   brand:'Xiom', type:'inverted', speed:8.5, spin:9,   control:8.5, hardness:'medium',    priceRange:42, ittf:true, categ:'intermediaire',
+    desc:"Excellent revêtement de transition vers le haut niveau — bon grip, polyvalent." },
+
+  // --- DHS ---
+  { id:'hurricane3',  name:'Hurricane 3',      brand:'DHS', type:'inverted', speed:8,   spin:9,   control:8,   hardness:'dur',       priceRange:22, ittf:true, categ:'offensive',
+    desc:"Le revêtement chinois par excellence. Spin lourd, jeu proche de la table, utilisé par l'élite mondiale." },
+  { id:'hurricane3neo',name:'Hurricane 3 Neo', brand:'DHS', type:'inverted', speed:8.5, spin:9.5, control:7.5, hardness:'dur',       priceRange:25, ittf:true, categ:'offensive',
+    desc:"Version boostée du Hurricane 3. Explosive et très spin, très prisée des joueurs de style asiatique." },
+  { id:'hurricane8',   name:'Hurricane 8',     brand:'DHS', type:'inverted', speed:9,   spin:9,   control:8,   hardness:'dur',       priceRange:28, ittf:true, categ:'offensive',
+    desc:"Alternative moderne au Hurricane 3 — vitesse et spin renforcés pour le jeu offensif." },
+  { id:'skylinetg2',   name:'Skyline TG2',     brand:'DHS', type:'inverted', speed:8.5, spin:9,   control:8,   hardness:'medium',    priceRange:20, ittf:true, categ:'offensive',
+    desc:"Alternative accessible avec bon spin et vitesse. Populaire chez les joueurs asiatiques." },
+  { id:'goldarc8',     name:'Gold Arc 8',      brand:'DHS', type:'inverted', speed:8,   spin:8.5, control:8.5, hardness:'medium',    priceRange:18, ittf:true, categ:'intermediaire',
+    desc:"Très bon rapport qualité-prix DHS pour les intermédiaires cherchant spin et régularité." },
+
+  // --- NITTAKU ---
+  { id:'fastarcg1',  name:'Fastarc G-1',       brand:'Nittaku', type:'inverted', speed:9, spin:9,   control:8,   hardness:'medium',   priceRange:48, ittf:true, categ:'offensive',
+    desc:"Excellent revêtement japonais — grip très élevé, excellent pour le topspin." },
+  { id:'fastarcc1',  name:'Fastarc C-1',        brand:'Nittaku', type:'inverted', speed:9, spin:9.5, control:7.5, hardness:'dur',      priceRange:50, ittf:true, categ:'offensive',
+    desc:"Version encore plus axée spin du Fastarc G-1. Pour les loopeurs exigeants." },
+  { id:'fastarcsp1', name:'Fastarc S-1',        brand:'Nittaku', type:'inverted', speed:8.5, spin:9, control:8.5, hardness:'medium',   priceRange:45, ittf:true, categ:'offensive',
+    desc:"Polyvalent et précis. Bon choix pour les joueurs confirmés cherchant l'équilibre." },
+  { id:'hammond',    name:'Hammond',            brand:'Nittaku', type:'inverted', speed:7.5, spin:8, control:9,   hardness:'souple',   priceRange:32, ittf:true, categ:'intermediaire',
+    desc:"Revêtement fiable et régulier, parfait pour les joueurs de club en progression." },
+  { id:'rookies',    name:'Rookies',            brand:'Nittaku', type:'inverted', speed:6.5, spin:7.5, control:9.5, hardness:'souple', priceRange:20, ittf:false,categ:'debutant',
+    desc:"Conçu pour les débutants — très contrôlable et forgiving, idéal pour apprendre les gestes." },
+
+  // --- JOOLA ---
+  { id:'rhyzm',     name:'Rhyzm',              brand:'JOOLA', type:'inverted', speed:8.5, spin:9,   control:8,   hardness:'medium',    priceRange:40, ittf:true, categ:'offensive',
+    desc:"La référence JOOLA — grip excellent, très bon spin, bon pour la compétition." },
+  { id:'rhyzmtech', name:'Rhyzm Tech',         brand:'JOOLA', type:'inverted', speed:9,   spin:9,   control:8,   hardness:'dur',       priceRange:44, ittf:true, categ:'offensive',
+    desc:"Version plus explosive du Rhyzm pour les attaquants cherchant plus de vitesse." },
+  { id:'goldentango',name:'Golden Tango PS',   brand:'JOOLA', type:'inverted', speed:8.5, spin:9,   control:8.5, hardness:'medium',    priceRange:42, ittf:true, categ:'offensive',
+    desc:"Très polyvalent, bon équilibre — excellent choix pour les joueurs modernes." },
+  { id:'dynaryzagr', name:'Dynaryz AGR',       brand:'JOOLA', type:'inverted', speed:9.5, spin:10,  control:7.5, hardness:'dur',       priceRange:58, ittf:true, categ:'offensive',
+    desc:"Le haut de gamme JOOLA — spin et vitesse maximaux, technologie Carbo Sponge." },
+  { id:'dynaryzzgr', name:'Dynaryz ZGR',       brand:'JOOLA', type:'inverted', speed:9,   spin:9.5, control:8,   hardness:'dur',       priceRange:55, ittf:true, categ:'offensive',
+    desc:"Légèrement plus contrôlable que l'AGR tout en conservant d'excellentes performances." },
+  { id:'express',    name:'Express One',       brand:'JOOLA', type:'inverted', speed:8,   spin:8,   control:8.5, hardness:'medium',    priceRange:30, ittf:true, categ:'intermediaire',
+    desc:"Revêtement intermédiaire accessible de JOOLA — solide, régulier, bon pour le club." },
+
+  // --- ANDRO ---
+  { id:'rasanterr47',name:'Rasanter R47',      brand:'Andro', type:'inverted', speed:9,   spin:9.5, control:8,   hardness:'medium',    priceRange:48, ittf:true, categ:'offensive',
+    desc:"Technologie Energy Cell — excellent grip et spin. Référence dans la gamme Andro." },
+  { id:'rasanterr42',name:'Rasanter R42',      brand:'Andro', type:'inverted', speed:8.5, spin:9,   control:8.5, hardness:'souple',    priceRange:46, ittf:true, categ:'intermediaire',
+    desc:"Version plus souple et contrôlable du R47. Idéal pour les confirmés en développement." },
+  { id:'rasanterr53',name:'Rasanter R53',      brand:'Andro', type:'inverted', speed:9.5, spin:9.5, control:7.5, hardness:'dur',       priceRange:52, ittf:true, categ:'offensive',
+    desc:"La version la plus explosive des Rasanter. Pour les attaquants cherchant le maximum." },
+  { id:'rasanterv47',name:'Rasanter V47',      brand:'Andro', type:'inverted', speed:9,   spin:9,   control:8,   hardness:'medium',    priceRange:48, ittf:true, categ:'offensive',
+    desc:"Version Veloce — excellent équilibre vitesse/spin/contrôle avec un toucher premium." },
+  { id:'rasanterc48',name:'Rasanter C48',      brand:'Andro', type:'inverted', speed:9.5, spin:9.5, control:7.5, hardness:'dur',       priceRange:54, ittf:true, categ:'offensive',
+    desc:"Éponge carbone ultra-rapide pour les attaquants de haut niveau. Puissance explosive." },
+
+  // --- VICTAS ---
+  { id:'v15extra',  name:'V>15 Extra',         brand:'Victas', type:'inverted', speed:9.5, spin:10,  control:7.5, hardness:'dur',      priceRange:55, ittf:true, categ:'offensive',
+    desc:"Nouveau standard japonais — spin extraordinaire grâce à la technologie Triple Extra." },
+  { id:'v15stiff',  name:'V>15 Stiff',         brand:'Victas', type:'inverted', speed:9,   spin:9.5, control:8,   hardness:'dur',      priceRange:52, ittf:true, categ:'offensive',
+    desc:"Version légèrement plus contrôlable du V>15 Extra. Excellent pour le jeu compétitif." },
+  { id:'v20double', name:'V>20 Double Extra',  brand:'Victas', type:'inverted', speed:10,  spin:10,  control:7,   hardness:'extra-dur',priceRange:60, ittf:true, categ:'offensive',
+    desc:"Le summum de la gamme Victas — réservé aux joueurs d'élite avec technique confirmée." },
+  { id:'vs401',     name:'VS>401',             brand:'Victas', type:'inverted', speed:7.5, spin:8,   control:9,   hardness:'souple',   priceRange:28, ittf:true, categ:'debutant',
+    desc:"Revêtement Victas d'entrée de gamme — contrôle élevé, bon pour apprendre." },
+
+  // --- GEWO ---
+  { id:'nexxuselp48',name:'Nexxus EL Pro 48',  brand:'Gewo', type:'inverted', speed:9,    spin:9.5, control:8,   hardness:'medium',   priceRange:46, ittf:true, categ:'offensive',
+    desc:"Revêtement de haute qualité avec excellent grip et bonne vitesse." },
+  { id:'protonneo375',name:'Proton Neo 375',   brand:'Gewo', type:'inverted', speed:8.5,  spin:9,   control:8.5, hardness:'souple',   priceRange:40, ittf:true, categ:'intermediaire',
+    desc:"Très accessible, bon spin et contrôle — excellent rapport qualité-prix." },
+  { id:'mesonov55',  name:'Meson 45',          brand:'Gewo', type:'inverted', speed:7.5,  spin:7.5, control:9,   hardness:'souple',   priceRange:25, ittf:true, categ:'debutant',
+    desc:"Revêtement entrée de gamme Gewo — solide, régulier et économique." },
+
+  // --- FRIENDSHIP 729 ---
+  { id:'friendship729',name:'729 General',     brand:'Friendship 729', type:'inverted', speed:7.5, spin:7.5, control:9, hardness:'souple', priceRange:12, ittf:true, categ:'debutant',
+    desc:"Revêtement chinois économique très populaire pour l'apprentissage." },
+  { id:'729focus3', name:'Focus 3',            brand:'Friendship 729', type:'inverted', speed:8.5, spin:9,   control:8, hardness:'medium', priceRange:20, ittf:true, categ:'offensive',
+    desc:"Revêtement offensif de qualité à prix très accessible. Bon spin et vitesse." },
+  { id:'729battle2',name:'Battle 2',           brand:'Friendship 729', type:'inverted', speed:9,   spin:9,   control:7.5, hardness:'dur', priceRange:22, ittf:true, categ:'offensive',
+    desc:"Revêtement performant de style asiatique — très explosif pour le prix." },
+
+  // --- PALIO ---
+  { id:'paliocj',   name:'CJ8000',             brand:'Palio', type:'inverted', speed:8,   spin:8.5, control:8.5, hardness:'medium',   priceRange:15, ittf:true, categ:'intermediaire',
+    desc:"Excellent rapport qualité-prix pour les intermédiaires à budget serré." },
+  { id:'palio42',   name:'AK 47 Blue',         brand:'Palio', type:'inverted', speed:8.5, spin:9,   control:8,   hardness:'medium',   priceRange:18, ittf:true, categ:'offensive',
+    desc:"Revêtement offensif à très bas prix avec bon spin. Alternative chinoise économique." },
+
+  // --- PICOTS COURTS ---
+  { id:'speedypo',  name:'Speedy PO',          brand:'Butterfly', type:'shortpips', speed:8,   spin:5, control:8.5, hardness:'medium', priceRange:32, ittf:true, categ:'specialiste',
+    desc:"Picots courts classiques — blocs rapides, balle plate et imprévisible, idéal près de la table." },
+  { id:'impartialxs',name:'Impartial XS',      brand:'Butterfly', type:'shortpips', speed:7.5, spin:5, control:8,   hardness:'medium', priceRange:32, ittf:true, categ:'specialiste',
+    desc:"Picots courts au comportement neutre, bon contrôle et jeu régulier." },
+  { id:'donicpiranja',name:'Piranha',          brand:'Donic',    type:'shortpips', speed:8.5, spin:5, control:8,   hardness:'medium', priceRange:30, ittf:true, categ:'specialiste',
+    desc:"Picots courts rapides et incisifs. Jeu agressif avec balle basse et plate." },
+  { id:'stigaradical',name:'Radical',          brand:'Stiga',    type:'shortpips', speed:8,   spin:5, control:8,   hardness:'medium', priceRange:28, ittf:true, categ:'specialiste',
+    desc:"Picots courts fiables pour le jeu actif. Bon pour bloquer et contre-attaquer." },
+  { id:'jooltango',  name:'Tango Ultra',       brand:'JOOLA',    type:'shortpips', speed:8,   spin:5, control:8.5, hardness:'medium', priceRange:28, ittf:true, categ:'specialiste',
+    desc:"Picots courts équilibrés, très contrôlables pour les joueurs attaquants." },
+  { id:'tibhargrassd',name:'Grass D.TecS',     brand:'Tibhar',   type:'shortpips', speed:7.5, spin:5.5, control:8, hardness:'medium', priceRange:30, ittf:true, categ:'specialiste',
+    desc:"Picots courts avec un peu plus de spin que la normale. Polyvalent." },
+  { id:'doctorsp',  name:'Dr. Reck Micro',     brand:'Dr. Neubauer', type:'shortpips', speed:7.5, spin:5, control:8.5, hardness:'medium', priceRange:22, ittf:true, categ:'specialiste',
+    desc:"Picots courts classiques économiques — bon contrôle et perturbation modérée." },
+  { id:'nittakufly', name:'Fly Extra',         brand:'Nittaku',  type:'shortpips', speed:8, spin:5.5, control:8, hardness:'medium',   priceRange:30, ittf:true, categ:'specialiste',
+    desc:"Picots courts japonais de qualité — bon feeling, comportement stable." },
+
+  // --- PICOTS LONGS ---
+  { id:'feintlong3', name:'Feint Long III',    brand:'Butterfly', type:'longpips', speed:5, spin:2, control:8,   hardness:'souple',    priceRange:28, ittf:true, categ:'defenseur',
+    desc:"Les picots longs les plus utilisés au monde. Inversion d'effet excellente, stable et prévisible." },
+  { id:'feintag',    name:'Feint AG',          brand:'Butterfly', type:'longpips', speed:5, spin:2, control:7.5, hardness:'souple',    priceRange:28, ittf:true, categ:'defenseur',
+    desc:"Version semi-rigide du Feint Long, légèrement plus actif et plus perturbant." },
+  { id:'tspcp1r',    name:'Curl P-1R',         brand:'TSP',      type:'longpips', speed:5, spin:1.5, control:8, hardness:'souple',    priceRange:25, ittf:true, categ:'defenseur',
+    desc:"Picots longs mous très efficaces en défense loin de la table. Inversion maximale." },
+  { id:'nittakucurlp4',name:'Curl P-4 Soft',  brand:'Nittaku',  type:'longpips', speed:5, spin:2, control:8,   hardness:'souple',    priceRange:28, ittf:true, categ:'defenseur',
+    desc:"Picots longs souples et fiables, bon comportement en défense et blocs piquants." },
+  { id:'neubauerkiller',name:'Killer',         brand:'Dr. Neubauer', type:'longpips', speed:5, spin:1.5, control:7.5, hardness:'souple', priceRange:22, ittf:true, categ:'defenseur',
+    desc:"Picots longs agressifs pour une inversion d'effet maximale. Très perturbant." },
+  { id:'neubauerdespera',name:'Desperado',     brand:'Dr. Neubauer', type:'longpips', speed:5.5, spin:2, control:7.5, hardness:'medium', priceRange:22, ittf:true, categ:'defenseur',
+    desc:"Picots longs semi-rigides permettant un jeu actif tout en gardant un effet perturbant." },
+  { id:'donicpipfd', name:'Piranha FD',        brand:'Donic',    type:'longpips', speed:5, spin:2, control:8,   hardness:'souple',    priceRange:25, ittf:true, categ:'defenseur',
+    desc:"Picots longs équilibrés de Donic — bon contrôle et perturbation suffisante." },
+  { id:'tibharphantom',name:'Phantom 007',     brand:'Tibhar',   type:'longpips', speed:5, spin:1.5, control:8, hardness:'souple',    priceRange:25, ittf:true, categ:'defenseur',
+    desc:"Picots longs Tibhar avec bon comportement défensif. Inversion d'effet élevée." },
+  { id:'spinlordwaran',name:'Waran II',        brand:'Spinlord', type:'longpips', speed:5, spin:2, control:7.5, hardness:'medium',    priceRange:20, ittf:true, categ:'defenseur',
+    desc:"Picots longs polyvalents permettant un jeu actif et défensif." },
+  { id:'victascurlp1v',name:'Curl P1V',        brand:'Victas',   type:'longpips', speed:5, spin:1.5, control:8, hardness:'souple',    priceRange:26, ittf:true, categ:'defenseur',
+    desc:"Picots longs de haute qualité — inversion d'effet prononcée, idéal pour la défense loin de la table." },
+
+  // --- ANTI-SPIN ---
+  { id:'antispecial', name:'Anti Special',     brand:'Dr. Neubauer', type:'antispin', speed:4, spin:1, control:8, hardness:'souple',  priceRange:20, ittf:true, categ:'defenseur',
+    desc:"Anti-spin classique pour annuler l'effet adverse. Surface lisse, comportement neutre." },
+  { id:'stigareflex', name:'Reflex',           brand:'Stiga',    type:'antispin', speed:5, spin:1.5, control:8, hardness:'souple',    priceRange:22, ittf:true, categ:'defenseur',
+    desc:"Anti-spin polyvalent utilisable en défense et en blocs passifs." },
+  { id:'tspsuper',    name:'Super Anti',       brand:'TSP',      type:'antispin', speed:4, spin:1,   control:8.5, hardness:'souple',  priceRange:18, ittf:true, categ:'defenseur',
+    desc:"Anti-spin économique très contrôlable pour les défenseurs débutants." },
+];
+
+const BLADES = [
+  // --- BUTTERFLY ---
+  { id:'viscaria',    name:'Viscaria',          brand:'Butterfly', speed:9.5, control:7.5, stiffness:'très raide', type:'OFF+', layers:'5+2 ALC',     price:220, categ:'offensive',
+    desc:"La lame la plus utilisée au monde parmi l'élite. ALC pour vitesse et vibration optimales." },
+  { id:'tbollalc',    name:'Timo Boll ALC',     brand:'Butterfly', speed:9,   control:8,   stiffness:'raide',      type:'OFF',  layers:'5+2 ALC',     price:200, categ:'offensive',
+    desc:"Légèrement plus contrôlable que la Viscaria. Excellent pour les loopeurs de haut niveau." },
+  { id:'tbollzlc',    name:'Timo Boll ZLC',     brand:'Butterfly', speed:9.5, control:7.5, stiffness:'très raide', type:'OFF+', layers:'5+2 ZLC',     price:230, categ:'offensive',
+    desc:"ZLC encore plus explosif que l'ALC. Pour les attaquants cherchant la vitesse maximale." },
+  { id:'tbollw7',     name:'Timo Boll W7',      brand:'Butterfly', speed:9.5, control:7.5, stiffness:'très raide', type:'OFF+', layers:'7 bois',      price:180, categ:'offensive',
+    desc:"7 couches de bois pur pour une vitesse explosive sans carbone. Excellent feeling." },
+  { id:'zjkealc',     name:'Zhang Jike ALC',    brand:'Butterfly', speed:9.5, control:7.5, stiffness:'raide',      type:'OFF+', layers:'5+2 ALC',     price:210, categ:'offensive',
+    desc:"La lame de Zhang Jike — très similaire à la Viscaria avec un feeling légèrement différent." },
+  { id:'zjkezlc',     name:'Zhang Jike ZLC',    brand:'Butterfly', speed:10,  control:7,   stiffness:'très raide', type:'OFF+', layers:'5+2 ZLC',     price:240, categ:'offensive',
+    desc:"Maximum de vitesse dans la gamme Butterfly. Réservé aux joueurs élite." },
+  { id:'inneralc',    name:'Innerforce ALC',    brand:'Butterfly', speed:9,   control:8.5, stiffness:'raide',      type:'OFF',  layers:'5+2 ALC inner',price:210, categ:'offensive',
+    desc:"Carbon intégré à l'intérieur — plus de feeling que la Viscaria avec bonne vitesse." },
+  { id:'innerzlc',    name:'Innerforce ZLC',    brand:'Butterfly', speed:9.5, control:8,   stiffness:'très raide', type:'OFF+', layers:'5+2 ZLC inner',price:240, categ:'offensive',
+    desc:"ZLC interne pour vitesse et feeling. Très performant pour les loopeurs modernes." },
+  { id:'harimoto',    name:'Harimoto Tomokazu ALC', brand:'Butterfly', speed:9, control:8, stiffness:'raide',    type:'OFF',  layers:'5+2 ALC',     price:195, categ:'offensive',
+    desc:"Lame de Harimoto Tomokazu — légère et maniable avec les performances ALC. Excellent pour les jeunes joueurs." },
+  { id:'flydrive',    name:'Ovtcharov True Carbon', brand:'Butterfly', speed:9.5, control:7.5, stiffness:'très raide', type:'OFF+', layers:'5+2 True Carbon', price:215, categ:'offensive',
+    desc:"La lame d'Ovtcharov — True Carbon pour une réponse explosive et directe." },
+
+  // --- TIBHAR ---
+  { id:'tibharinfinity',name:'Infinity',        brand:'Tibhar', speed:9.5, control:7.5, stiffness:'raide',      type:'OFF+', layers:'5+2 carbon',  price:150, categ:'offensive',
+    desc:"Très rapide et explosive avec excellent spin potentiel. Carbon performant." },
+  { id:'tibbhar5q',   name:'5Q Carbon',         brand:'Tibhar', speed:8.5, control:8.5, stiffness:'medium',     type:'OFF',  layers:'5+2 carbon',  price:120, categ:'offensive',
+    desc:"Bon compromis vitesse/contrôle pour les confirmés. Très populaire en Europe." },
+  { id:'samsonov',    name:'Samsonov Force Pro', brand:'Tibhar', speed:8.5, control:8.5, stiffness:'medium',     type:'OFF',  layers:'5 bois',      price:100, categ:'intermediaire',
+    desc:"Lame 5 couches de référence — bois pur, excellent feeling, très polyvalente." },
+  { id:'stratuspow',  name:'Stratus Power Wood',brand:'Tibhar', speed:8,   control:8.5, stiffness:'flexible',   type:'OFF-', layers:'5 bois',      price:75,  categ:'intermediaire',
+    desc:"Lame en bois souple, très contrôlable. Idéale pour les intermédiaires." },
+  { id:'tibhariv',    name:'Tibhar IV S',        brand:'Tibhar', speed:7.5, control:9,   stiffness:'flexible',   type:'ALL+', layers:'5 bois',      price:60,  categ:'intermediaire',
+    desc:"Lame 5 couches légère et maniable — excellente pour le jeu all-round en club." },
+  { id:'tibharlord',  name:'Lord of the Storm', brand:'Tibhar', speed:10,  control:7,   stiffness:'très raide', type:'OFF+', layers:'5+2 carbon',  price:165, categ:'offensive',
+    desc:"Lame extrême pour les joueurs élite — carbon ultra-performant pour l'attaque pure." },
+
+  // --- DONIC ---
+  { id:'waldnercarbon',name:'Waldner Senso Carbon', brand:'Donic', speed:9, control:8,   stiffness:'raide',      type:'OFF',  layers:'5+2 carbon',  price:130, categ:'offensive',
+    desc:"La lame légendaire de Jan-Ove Waldner modernisée avec carbon." },
+  { id:'waldnerall',  name:'Waldner Allround',  brand:'Donic', speed:7.5, control:9,    stiffness:'flexible',   type:'ALL',  layers:'5 bois',      price:65,  categ:'debutant',
+    desc:"Classique parfait pour l'apprentissage — contrôle maximal et feeling excellent." },
+  { id:'origtruecarb',name:'Original True Carbon', brand:'Donic', speed:9.5, control:7.5, stiffness:'très raide', type:'OFF+', layers:'5+2 carbon', price:165, categ:'offensive',
+    desc:"Carbon pur très explosif, pour attaquants cherchant la vitesse maximale." },
+  { id:'defplaysenso',name:'Defplay Senso',     brand:'Donic', speed:6,   control:9.5,  stiffness:'très flexible', type:'DEF', layers:'5 bois',     price:70,  categ:'defenseur',
+    desc:"Spécialement conçue pour les défenseurs — lente, contrôlée, parfaite pour les choppers." },
+  { id:'overplaytc',  name:'Overplay Carbon',   brand:'Donic', speed:9,   control:8,    stiffness:'raide',      type:'OFF',  layers:'5+2 carbon',  price:125, categ:'offensive',
+    desc:"Lame carbon offensive et équilibrée — bonne alternative à la Waldner Carbon." },
+  { id:'persson',     name:'Persson Powerallround', brand:'Donic', speed:8.5, control:8.5, stiffness:'medium',  type:'OFF',  layers:'5 bois',      price:85,  categ:'intermediaire',
+    desc:"La lame de la légende suédoise Jörgen Persson — très polyvalente, excellent feeling bois." },
+
+  // --- STIGA ---
+  { id:'carbonado45', name:'Carbonado 45',      brand:'Stiga', speed:9,   control:8,    stiffness:'raide',      type:'OFF',  layers:'7+2 INNCORE', price:175, categ:'offensive',
+    desc:"Technologie INNCORE carbon — excellent feeling malgré la vitesse élevée." },
+  { id:'carbonado90', name:'Carbonado 90',      brand:'Stiga', speed:9.5, control:7.5,  stiffness:'très raide', type:'OFF+', layers:'7+2 INNCORE', price:190, categ:'offensive',
+    desc:"Version encore plus explosive du Carbonado 45. Pour l'élite." },
+  { id:'offcr',       name:'Offensive CR',      brand:'Stiga', speed:8.5, control:8.5,  stiffness:'medium',     type:'OFF',  layers:'5+2 carbon',  price:110, categ:'offensive',
+    desc:"Lame carbon accessible — bonne vitesse avec contrôle suffisant pour les confirmés." },
+  { id:'allroundclassic',name:'Allround Classic', brand:'Stiga', speed:7.5, control:9.5, stiffness:'flexible',  type:'ALL',  layers:'5 bois',      price:55,  categ:'debutant',
+    desc:"La référence absolue pour l'apprentissage. Utilisée dans le monde entier." },
+  { id:'allroundevol', name:'Allround Evolution', brand:'Stiga', speed:8, control:9,    stiffness:'flexible',   type:'ALL+', layers:'5 bois',      price:70,  categ:'intermediaire',
+    desc:"Version évoluée de l'Allround Classic — un peu plus rapide tout en conservant le contrôle." },
+  { id:'defensiveclassic',name:'Defensive Classic', brand:'Stiga', speed:6, control:9.5, stiffness:'très flexible', type:'DEF', layers:'5 bois',   price:60,  categ:'defenseur',
+    desc:"Lame défensive pure — lente et très contrôlable pour les choppers." },
+  { id:'mamba',       name:'Mamba',             brand:'Stiga', speed:9,   control:8,    stiffness:'raide',      type:'OFF',  layers:'5+2 carbon',  price:130, categ:'offensive',
+    desc:"Lame carbon moderne de Stiga — explosif et maniable pour le jeu offensif." },
+  { id:'infinity2',   name:'Infinity VPS V',    brand:'Stiga', speed:9.5, control:7.5,  stiffness:'très raide', type:'OFF+', layers:'5+2 carbon',  price:185, categ:'offensive',
+    desc:"Haut de gamme Stiga — technologie VPS pour une vibration optimisée et une puissance extrême." },
+
+  // --- YASAKA ---
+  { id:'swedenextra', name:'Sweden Extra',      brand:'Yasaka', speed:8.5, control:8.5, stiffness:'medium',     type:'OFF',  layers:'5 bois',      price:90,  categ:'intermediaire',
+    desc:"Lame 5 couches de haute qualité — bonne vitesse, excellent feeling. Référence suédoise." },
+  { id:'yasakaextra', name:'Extra',             brand:'Yasaka', speed:8,   control:8.5, stiffness:'medium',     type:'OFF-', layers:'5 bois',      price:70,  categ:'intermediaire',
+    desc:"Version légèrement moins rapide — contrôle amélioré pour les joueurs en progression." },
+  { id:'reinforcecc', name:'Reinforce CC',      brand:'Yasaka', speed:9,   control:8,   stiffness:'raide',      type:'OFF',  layers:'5+2 carbon',  price:130, categ:'offensive',
+    desc:"Carbon performant à prix raisonnable — très populaire en club." },
+  { id:'yasakama',    name:'Ma Lin Soft Carbon', brand:'Yasaka', speed:8.5, control:8.5, stiffness:'medium',    type:'OFF',  layers:'5+2 carbon',  price:115, categ:'offensive',
+    desc:"Carbon doux pour plus de feeling — idéal pour les loopeurs confirmés." },
+
+  // --- JOOLA ---
+  { id:'fever',       name:'Fever',             brand:'JOOLA', speed:9.5, control:7.5,  stiffness:'très raide', type:'OFF+', layers:'5+2 carbon',  price:145, categ:'offensive',
+    desc:"Lame explosive JOOLA pour attaquants — vitesse maximale avec bon spin." },
+  { id:'goldencarbon',name:'Golden Carbon',     brand:'JOOLA', speed:9,   control:8,    stiffness:'raide',      type:'OFF',  layers:'5+2 carbon',  price:120, categ:'offensive',
+    desc:"Carbon performant et équilibré. Excellent rapport qualité-prix en compétition." },
+  { id:'rosskopf',    name:'Rosskopf Emotion',  brand:'JOOLA', speed:8.5, control:8.5,  stiffness:'medium',     type:'OFF',  layers:'5 bois',      price:85,  categ:'intermediaire',
+    desc:"Lame du champion du monde Rosskopf — 5 couches bois polyvalentes et solides." },
+  { id:'joolaroxx',   name:'Roxx',              brand:'JOOLA', speed:7.5, control:9,    stiffness:'flexible',   type:'ALL+', layers:'5 bois',      price:60,  categ:'intermediaire',
+    desc:"Lame all-round accessible de JOOLA — bonne pour progresser en club." },
+  { id:'ittf1980',    name:'Team ITTF',         brand:'JOOLA', speed:8,   control:8.5,  stiffness:'medium',     type:'OFF-', layers:'5 bois',      price:75,  categ:'intermediaire',
+    desc:"Lame bois polyvalente JOOLA — fiable, équilibrée, bien finie pour le club." },
+
+  // --- ANDRO ---
+  { id:'androtreibc', name:'Treiber C',         brand:'Andro', speed:9,   control:8,    stiffness:'raide',      type:'OFF',  layers:'5+2 carbon',  price:125, categ:'offensive',
+    desc:"Carbon solide et réactif avec bon feeling. Idéal pour les loopeurs confirmés." },
+  { id:'androkinetic',name:'Kinetic Carbon Hard', brand:'Andro', speed:9.5, control:7.5, stiffness:'très raide', type:'OFF+', layers:'5+2 carbon',price:155, categ:'offensive',
+    desc:"Très explosif pour les attaquants modernes. Puissance maximale." },
+  { id:'andronigma',  name:'Ligna VII',         brand:'Andro', speed:8,   control:8.5,  stiffness:'flexible',   type:'OFF-', layers:'7 bois',      price:90,  categ:'intermediaire',
+    desc:"7 couches de bois pur — vitesse élevée avec très bon feeling. Pour les confirmés." },
+
+  // --- NITTAKU ---
+  { id:'acoustic',    name:'Acoustic',          brand:'Nittaku', speed:8.5, control:8.5, stiffness:'medium',    type:'OFF',  layers:'5 bois',      price:105, categ:'intermediaire',
+    desc:"Lame 5 couches premium avec son remarquable — feeling extraordinaire et très polyvalente." },
+  { id:'violin',      name:'Violin',            brand:'Nittaku', speed:8,   control:9,   stiffness:'flexible',  type:'ALL+', layers:'5 bois',      price:85,  categ:'intermediaire',
+    desc:"Lame avec bois exotique — excellent pour l'all-round, retour de balle précis." },
+  { id:'nittakufa',   name:'Flyatt Carbon',     brand:'Nittaku', speed:9,   control:8,   stiffness:'raide',     type:'OFF',  layers:'5+2 carbon',  price:140, categ:'offensive',
+    desc:"Carbon haut de gamme Nittaku — excellent rapport vitesse/feeling pour la compétition." },
+  { id:'nittakupremium',name:'Premium Carbon',  brand:'Nittaku', speed:9.5, control:7.5, stiffness:'très raide', type:'OFF+', layers:'5+2 carbon', price:185, categ:'offensive',
+    desc:"Le summum Nittaku — carbon ultra-rapide pour les joueurs de haut niveau." },
+
+  // --- DHS ---
+  { id:'pg13',        name:'Power-G13',         brand:'DHS', speed:9,   control:8,    stiffness:'raide',      type:'OFF',  layers:'5+2 carbon',  price:95,  categ:'offensive',
+    desc:"Carbon accessible — bon pour les joueurs de style asiatique." },
+  { id:'hurricanelong5x',name:'Hurricane Long 5X', brand:'DHS', speed:8.5, control:8.5, stiffness:'medium', type:'OFF',  layers:'5 bois',      price:45,  categ:'intermediaire',
+    desc:"Lame 5 couches de qualité à prix accessible. Très populaire en Chine." },
+  { id:'dhspg7',      name:'Power-G7',          brand:'DHS', speed:8,   control:8.5,  stiffness:'medium',     type:'OFF-', layers:'7 bois',      price:55,  categ:'intermediaire',
+    desc:"7 couches bois pur — bon compromis vitesse/feeling à prix raisonnable." },
+
+  // --- CORNILLEAU ---
+  { id:'gatiencarb',  name:'Gatien Carbon',     brand:'Cornilleau', speed:9,  control:8,  stiffness:'raide',  type:'OFF',  layers:'5+2 carbon',  price:110, categ:'offensive',
+    desc:"La lame de Gatien modernisée avec carbon. Vitesse élevée avec bon contrôle." },
+  { id:'gatien5wood', name:'Gatien Classic',    brand:'Cornilleau', speed:8.5, control:8.5, stiffness:'medium', type:'OFF', layers:'5 bois',     price:75,  categ:'intermediaire',
+    desc:"Lame 5 couches de référence — excellente polyvalence et feeling." },
+  { id:'cornilleauarena',name:'Aréna 7',        brand:'Cornilleau', speed:8,  control:8.5, stiffness:'medium', type:'ALL+', layers:'7 bois',     price:65,  categ:'intermediaire',
+    desc:"7 couches bois — bon feeling, vitesse intéressante, populaire dans les clubs français." },
+
+  // --- BUTTERFLY ENTRÉE DE GAMME ---
+  { id:'btfly_drive', name:'Bbutterfly Drive',  brand:'Butterfly', speed:8,  control:8.5, stiffness:'medium',    type:'OFF-', layers:'5 bois',    price:80,  categ:'intermediaire',
+    desc:"Lame 5 couches d'entrée de gamme Butterfly — bon feeling pour les débutants avancés." },
+];
+
+// Raquettes complètes
+const COMPLETE_RACKETS = [
+  { id:'tboll1',       name:'Timo Boll 1',      brand:'Butterfly', priceRange:28, level:'debutant', speed:6.5, spin:6.5, control:8.5,
+    desc:"Raquette officielle Butterfly idéale pour débuter — revêtements Addoy inclus, légère et maniable." },
+  { id:'nakamaS6',     name:'Nakama S-6',        brand:'Butterfly', priceRange:35, level:'debutant', speed:7,   spin:7,   control:8.5,
+    desc:"Excellente raquette de démarrage avec revêtements de bonne qualité. Recommandée pour les clubs." },
+  { id:'cornilleau100',name:'Nexeo X70',         brand:'Cornilleau', priceRange:38, level:'debutant', speed:6.5, spin:7, control:8.5,
+    desc:"Raquette de qualité française — bonne prise en main, revêtements durables." },
+  { id:'donic100',     name:'Appelgren Allplay', brand:'Donic',      priceRange:30, level:'debutant', speed:6.5, spin:7,   control:8.5,
+    desc:"Raquette all-round de Donic, excellente pour l'apprentissage. Fiable et équilibrée." },
+  { id:'stigaallplus', name:'Allround Classic Set', brand:'Stiga',   priceRange:45, level:'debutant', speed:7,   spin:7.5, control:9,
+    desc:"La légendaire lame Allround Classic avec revêtements Stiga — le meilleur départ possible." },
+  { id:'nittakucool',  name:'Cool',              brand:'Nittaku',   priceRange:32, level:'debutant', speed:7,   spin:7,   control:8.5,
+    desc:"Raquette complète Nittaku — solide et équilibrée pour débuter dans de bonnes conditions." },
+  { id:'joolaroxx_r',  name:'Roxx 400',          brand:'JOOLA',     priceRange:25, level:'debutant', speed:6.5, spin:7,   control:8.5,
+    desc:"Raquette complète JOOLA entrée de gamme — légère et facile à prendre en main." },
+  { id:'joolajpython', name:'Python',            brand:'JOOLA',     priceRange:40, level:'intermediaire', speed:7.5, spin:7.5, control:8.5,
+    desc:"Bonne raquette complète pour passer du débutant à l'intermédiaire — bien équilibrée." },
+  { id:'tibharhitech', name:'Hi-Tech',           brand:'Tibhar',    priceRange:65, level:'intermediaire', speed:7.5, spin:8, control:8,
+    desc:"Raquette intermédiaire avec revêtements Evolution — bon saut de qualité pour les progressants." },
+  { id:'cornilleau300',name:'Nexeo X90',         brand:'Cornilleau', priceRange:55, level:'intermediaire', speed:7.5, spin:8, control:8,
+    desc:"Raquette intermédiaire solide pour le jeu de club régulier." },
+  { id:'xiomvega_r',   name:'Vega Intro Set',    brand:'Xiom',      priceRange:48, level:'intermediaire', speed:7.5, spin:8, control:8.5,
+    desc:"Raquette complète avec revêtements Vega — très bon rapport qualité/prix pour progresser." },
+];
+
+// ============================================================
+//  ÉTAT DU QUIZ
+// ============================================================
+const state = {
+  pratique: null, classement: null, classementVal: null, classementNiveau: null,
+  niveau: null, style: null, main: null,
+  specialites: [], faibles: [],
+  vitesse: 5, controle: 5, spin: 5, puissance: 5,
+  budget: null,
+  eponge: null,
+  entrainements: null,
+  pointFort: null,
+  pertePt: null,
+  balleCoupee: null,
+  revers: null,
+  position: null,
+  prefRaquette: null,
+  ressenti: null,
+  objectif: null
+};
+let currentStep = 1;
+const totalSteps = 12;
+const stepLabels = [
+  'Profil du joueur','Niveau de jeu','Style de jeu','Précisions',
+  'Points à améliorer','Priorités matériel','Budget',
+  'Éponge dure ou souple','Fréquence entraîn./semaine','Ton point fort',
+  'Ton style réel','Tes sensations & objectif'
+];
+
+// ============================================================
+//  STEP 1 — PROFIL
+// ============================================================
+function selectPratique(val, btn) {
+  state.pratique = val;
+  const grid = btn.closest('.options-grid-2');
+  grid.querySelectorAll('.option-btn-sm').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  checkStep1Ready();
+  // Suggérer un niveau automatiquement
+  const suggested = pratiquToNiveau(val);
+  state.classementNiveau = state.classementNiveau || suggested;
+}
+
+function pratiquToNiveau(p) {
+  if (p === 'decouverte' || p === 'debutant' || p === 'loisir') return 'debutant';
+  if (p === 'intermediaire') return 'intermediaire';
+  if (p === 'confirme') return 'confirme';
+  if (p === 'expert') return 'avance';
+  return 'intermediaire';
+}
+
+function switchClassTab(panel, btn) {
+  document.querySelectorAll('.classement-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.classement-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-'+panel).classList.add('active');
+  if (panel === 'none') { state.classement = 'none'; state.classementNiveau = null; checkStep1Ready(); }
+}
+
+function selectPlage(id, label, btn) {
+  state.classement = id;
+  document.querySelectorAll('.points-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.classementNiveau = plageToNiveau(id);
+  checkStep1Ready();
+}
+
+function plageToNiveau(id) {
+  if (['nc','u500','500_700'].includes(id)) return 'debutant';
+  if (['700_900','900_1100','1100_1400'].includes(id)) return 'intermediaire';
+  if (['1400_1700','1700_2000'].includes(id)) return 'confirme';
+  if (['2000_2300','2300plus'].includes(id)) return 'avance';
+  return null;
+}
+
+function evalClassementLibre(val) {
+  const n = parseInt(val);
+  const res = document.getElementById('classResultLibre');
+  if (!val || isNaN(n) || n < 0) { res.className='classement-result'; res.style.display='none'; state.classementVal=null; state.classementNiveau=null; checkStep1Ready(); return; }
+  state.classementVal = n;
+  let niveau, label, cls;
+  if (n < 500)        { niveau='debutant';       label='Débutant — bases à acquérir'; cls='debutant'; }
+  else if (n < 700)   { niveau='debutant';        label='Débutant avancé'; cls='debutant'; }
+  else if (n < 900)   { niveau='intermediaire';   label='Intermédiaire bas'; cls='intermediaire'; }
+  else if (n < 1100)  { niveau='intermediaire';   label='Intermédiaire'; cls='intermediaire'; }
+  else if (n < 1400)  { niveau='intermediaire';   label='Intermédiaire confirmé'; cls='intermediaire'; }
+  else if (n < 1700)  { niveau='confirme';        label='Confirmé — joueur de club'; cls='confirme'; }
+  else if (n < 2000)  { niveau='confirme';        label='Bon confirmé — compétiteur régulier'; cls='confirme'; }
+  else if (n < 2300)  { niveau='avance';          label='Avancé — haut niveau régional'; cls='avance'; }
+  else                { niveau='avance';           label='Élite — haut niveau national'; cls='elite'; }
+  state.classementNiveau = niveau;
+  state.classement = 'libre_'+n;
+  res.className = 'classement-result visible ' + cls;
+  res.textContent = '→ Niveau détecté : ' + label + ' (' + n + ' pts)';
+  res.style.display = 'block';
+  checkStep1Ready();
+}
+
+function checkStep1Ready() {
+  // Débloque le bouton si la pratique est renseignée
+  document.getElementById('next1').disabled = !state.pratique;
+}
+
+// ============================================================
+//  STEP 2 — NIVEAU (pré-rempli avec suggestion)
+// ============================================================
+function preselectNiveau() {
+  const suggested = state.classementNiveau || pratiquToNiveau(state.pratique);
+  if (!suggested) return;
+  const subtitle = document.getElementById('step2Subtitle');
+  const niveauLabels = { debutant:'Débutant', intermediaire:'Intermédiaire', confirme:'Confirmé', avance:'Avancé / Élite' };
+  subtitle.textContent = `Basé sur votre profil, nous vous suggérons : ${niveauLabels[suggested]}. Confirmez ou modifiez.`;
+  // Pré-sélectionner le bouton correspondant
+  document.querySelectorAll('#step2 .option-btn').forEach(btn => {
+    const val = btn.getAttribute('onclick').match(/'niveau','([^']+)'/)[1];
+    if (val === suggested) {
+      if (!btn.classList.contains('selected')) {
+        btn.classList.add('selected');
+        state.niveau = suggested;
+        document.getElementById('next2').disabled = false;
+      }
+    }
+  });
+}
+
+// ============================================================
+//  STEP 4 — PRÉCISIONS
+// ============================================================
+function buildStep4() {
+  const div = document.getElementById('step4content');
+  div.innerHTML = `
+    <div class="section-label">🖐️ Main de jeu</div>
+    <div class="options-grid-2" style="margin-bottom:1.2rem">
+      <button class="option-btn-sm" onclick="selectMainHand('droitier',this)">
+        <div class="check-mark">✓</div>
+        <span class="osm-icon">🤜</span>
+        <div class="osm-text"><strong>Droitier</strong></div>
+      </button>
+      <button class="option-btn-sm" onclick="selectMainHand('gaucher',this)">
+        <div class="check-mark">✓</div>
+        <span class="osm-icon">🤛</span>
+        <div class="osm-text"><strong>Gaucher</strong></div>
+      </button>
+    </div>
+    <div class="section-label">${state.style==='defenseur' ? '🛡️ Type de défense' : '🎯 Caractéristiques (optionnel)'}</div>
+    <div class="check-grid">
+      ${state.style==='defenseur' ? `
+        <button class="check-btn" onclick="toggleCheck('specialites','chop',this)"><div class="cb"></div><span>🪓 Chop loin de la table</span></button>
+        <button class="check-btn" onclick="toggleCheck('specialites','block',this)"><div class="cb"></div><span>🛡️ Bloc près de la table</span></button>
+        <button class="check-btn" onclick="toggleCheck('specialites','longpips_def',this)"><div class="cb"></div><span>📌 Picots longs (BH)</span></button>
+        <button class="check-btn" onclick="toggleCheck('specialites','antispin_def',this)"><div class="cb"></div><span>🚫 Anti-spin</span></button>
+      ` : `
+        <button class="check-btn" onclick="toggleCheck('specialites','fh_dominant',this)"><div class="cb"></div><span>✋ FH dominant</span></button>
+        <button class="check-btn" onclick="toggleCheck('specialites','bh_topspin',this)"><div class="cb"></div><span>🔄 BH topspin</span></button>
+        <button class="check-btn" onclick="toggleCheck('specialites','jeu_court',this)"><div class="cb"></div><span>📍 Jeu court / service</span></button>
+        <button class="check-btn" onclick="toggleCheck('specialites','midist',this)"><div class="cb"></div><span>↔️ Mi-distance</span></button>
+      `}
+    </div>`;
+}
+
+function selectMainHand(val, btn) {
+  state.main = val;
+  const grid = btn.closest('.options-grid-2');
+  grid.querySelectorAll('.option-btn-sm').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+// Sélection inline (steps 8-12)
+function selectInline(field, val, btn, groupId) {
+  state[field] = val;
+  const container = groupId ? document.getElementById(groupId) : btn.closest('.inline-options');
+  container.querySelectorAll('.inline-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  // Activer bouton suivant si c'est une étape dédiée
+  const stepEl = btn.closest('.quiz-step');
+  if (stepEl) {
+    const stepNum = stepEl.id.replace('step','');
+    const nb = document.getElementById('next'+stepNum);
+    if (nb && nb.disabled !== undefined) {
+      // Pour step11 pas besoin de tout remplir, pour step12 on check objectif
+      if (stepNum === '12') {
+        if (state.objectif) nb.disabled = false;
+      } else if (stepNum === '11') {
+        nb.disabled = false; // pas obligatoire de tout remplir
+      } else {
+        nb.disabled = false;
+      }
+    }
+  }
+}
+
+// Sélection fréquence d'entraînement
+function selectFreq(val, btn) {
+  state.entrainements = val;
+  document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('next9').disabled = false;
+}
+
+// Vérification step12 : activer le bouton final quand objectif choisi
+function checkStep12() {
+  if (state.objectif) document.getElementById('next12').disabled = false;
+}
+
+// ============================================================
+//  CONTRÔLES QUIZ
+// ============================================================
+function selectOption(field, val, btn) {
+  state[field] = val;
+  const parent = btn.closest('.options-grid');
+  parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const stepEl = btn.closest('.quiz-step');
+  const stepNum = stepEl.id.replace('step','');
+  const nb = document.getElementById('next'+stepNum);
+  if (nb) nb.disabled = false;
+}
+
+function toggleCheck(field, val, btn) {
+  btn.classList.toggle('selected');
+  const cb = btn.querySelector('.cb');
+  if (btn.classList.contains('selected')) {
+    if (!state[field].includes(val)) state[field].push(val);
+    cb.innerHTML = '✓';
+  } else {
+    state[field] = state[field].filter(v => v !== val);
+    cb.innerHTML = '';
+  }
+}
+
+function updateSlider(field, val) {
+  state[field] = parseInt(val);
+  document.getElementById('val_'+field).textContent = val;
+}
+
+function updateProgress() {
+  for (let i = 1; i <= 12; i++) {
+    const dot = document.getElementById('sdot'+i);
+    if (!dot) continue;
+    dot.classList.remove('active','done');
+    if (i < currentStep) dot.classList.add('done');
+    else if (i === currentStep) dot.classList.add('active');
+    if (i < 12) {
+      const line = document.getElementById('sline'+i);
+      if (line) line.classList.toggle('done', i < currentStep);
+    }
+  }
+  document.getElementById('stepLabel').innerHTML =
+    `Étape <span>${currentStep}</span> sur 12 — ${stepLabels[currentStep-1]}`;
+}
+
+function nextStep(from) {
+  if (from === 3) buildStep4();
+  const curEl = document.getElementById('step'+from);
+  curEl.classList.add('leaving');
+  setTimeout(() => {
+    curEl.classList.remove('active','leaving');
+    currentStep = from + 1;
+    const next = document.getElementById('step'+currentStep);
+    next.classList.add('active');
+    if (from === 1) preselectNiveau();
+    // Pré-ajuster sliders selon sensations
+    if (from === 11) applyInsightsToSliders();
+    updateProgress();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }, 200);
+}
+
+// Applique les insights des questions style aux sliders
+function applyInsightsToSliders() {
+  let v = 5, c = 5, s = 5;
+  // Ressenti
+  if (state.ressenti === 'trop_rapide') { v = Math.max(2, v-2); c = Math.min(9, c+2); }
+  if (state.ressenti === 'trop_lent')   { v = Math.min(9, v+2); }
+  if (state.ressenti === 'manque_effet') { s = Math.min(9, s+2); }
+  // Point fort
+  if (state.pointFort === 'topspin')    { s = Math.min(9, s+2); v = Math.min(8, v+1); }
+  if (state.pointFort === 'frappe')     { v = Math.min(9, v+2); }
+  if (state.pointFort === 'placement')  { c = Math.min(9, c+2); }
+  if (state.pointFort === 'defense')    { c = Math.min(9, c+2); v = Math.max(3, v-1); }
+  // Pref raquette
+  if (state.prefRaquette === 'rapide')  { v = Math.min(9, v+1); }
+  if (state.prefRaquette === 'controlable') { c = Math.min(9, c+1); v = Math.max(3, v-1); }
+  // Perte de points
+  if (state.pertePt === 'manque_puissance') { v = Math.min(9, v+1); }
+  if (state.pertePt === 'manque_effet') { s = Math.min(9, s+1); }
+  if (state.pertePt === 'faute_directe') { c = Math.min(9, c+1); }
+  // Mettre à jour les sliders
+  state.vitesse = v; state.controle = c; state.spin = s;
+  ['vitesse','controle','spin'].forEach(f => {
+    const sl = document.getElementById('sl_'+f);
+    const vl = document.getElementById('val_'+f);
+    if (sl) sl.value = state[f];
+    if (vl) vl.textContent = state[f];
+  });
+}
+
+function prevStep(current) {
+  const curEl = document.getElementById('step'+current);
+  curEl.style.animation = 'stepOut .2s ease forwards';
+  setTimeout(() => {
+    curEl.style.animation = '';
+    curEl.classList.remove('active');
+    currentStep = current - 1;
+    const prev = document.getElementById('step'+currentStep);
+    prev.classList.add('active');
+    prev.style.animation = 'stepBackIn .3s ease both';
+    setTimeout(()=>{ prev.style.animation=''; }, 300);
+    updateProgress();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }, 180);
+}
+
+// ============================================================
+//  ALGORITHME DE RECOMMANDATION
+// ============================================================
+function buildProfiles() {
+  const effectiveNiveau = state.niveau;
+  let profiles = [];
+  if (effectiveNiveau === 'debutant') profiles = buildDebutantProfiles();
+  else if (effectiveNiveau === 'intermediaire') profiles = buildIntermediaireProfiles();
+  else profiles = buildConfirmeProfiles();
+  profiles.sort((a,b) => b.matchScore - a.matchScore);
+  return profiles.slice(0,4);
+}
+
+function scoreMatch(profile) {
+  const w = { vitesse: state.vitesse, controle: state.controle, spin: state.spin, puissance: state.puissance };
+  let score = 0;
+  if (profile.speed)   score += (profile.speed/10)   * w.vitesse;
+  if (profile.control) score += (profile.control/10)  * w.controle;
+  if (profile.spin)    score += (profile.spin/10)     * w.spin;
+  score = Math.round((score / (w.vitesse+w.controle+w.spin+w.puissance)) * 100);
+  // Bonus selon éponge préférée
+  if (profile.hardness) {
+    if (state.eponge === 'dure' && (profile.hardness === 'dur' || profile.hardness === 'extra-dur')) score += 5;
+    if (state.eponge === 'souple' && profile.hardness === 'souple') score += 5;
+    if (state.eponge === 'medium' && profile.hardness === 'medium') score += 3;
+  }
+  // Bonus fréquence → lame dynamique
+  if (state.entrainements === '4+' && profile.carbonBonus) score += 6;
+  if (state.entrainements === '1' && profile.woodBonus) score += 5;
+  // Bonus position → style de jeu
+  if (state.position === 'loin' && profile.defBonus) score += 8;
+  if (state.position === 'proche' && profile.offBonus) score += 5;
+  // Bonus objectif
+  if (state.objectif === 'progresser' && profile.control && profile.control >= 8) score += 3;
+  if (state.objectif === 'gagner' && profile.speed && profile.speed >= 9) score += 3;
+  if (state.objectif === 'plaisir' && profile.control && profile.control >= 8) score += 2;
+  return Math.min(score, 99);
+}
+
+// Filtre la dureté d'éponge selon préférence
+function matchesEponge(rubber) {
+  if (!state.eponge || state.eponge === 'sais_pas') return true;
+  if (state.eponge === 'dure') return rubber.hardness === 'dur' || rubber.hardness === 'extra-dur';
+  if (state.eponge === 'souple') return rubber.hardness === 'souple';
+  if (state.eponge === 'medium') return rubber.hardness === 'medium';
+  return true;
+}
+
+// Trouve le meilleur revêtement en tenant compte de l'éponge
+function findRubberWithEponge(categ, priority, maxPrice) {
+  let c = RUBBERS.filter(r => r.categ===categ && (!maxPrice||r.priceRange<=maxPrice) && r.type==='inverted' && r.ittf);
+  // Priorité aux revêtements qui matchent l'éponge
+  const matching = c.filter(r => matchesEponge(r));
+  if (matching.length > 0) c = matching;
+  if (!c.length) c = RUBBERS.filter(r => r.type==='inverted' && r.ittf);
+  if (priority==='spin') c.sort((a,b)=>b.spin-a.spin);
+  else if (priority==='speed') c.sort((a,b)=>b.speed-a.speed);
+  else c.sort((a,b)=>b.control-a.control);
+  return c[0]||null;
+}
+
+function budgetOk(price) {
+  const b = state.budget;
+  if (b === 'petit')      return price <= 55;
+  if (b === 'moyen')      return price <= 140;
+  if (b === 'confortable') return price <= 280;
+  return true;
+}
+
+function buildDebutantProfiles() {
+  let rackets = COMPLETE_RACKETS.filter(r =>
+    (r.level === 'debutant' || (r.level === 'intermediaire' && state.budget !== 'petit'))
+    && budgetOk(r.priceRange * 1.5)
+  );
+  return rackets.slice(0,4).map((r,i) => ({
+    id: r.id, icon:'🏓',
+    title:`${r.brand} ${r.name}`, subtitle:'Raquette complète · Prête à jouer',
+    why: r.desc, type:'complete',
+    speed:r.speed, control:r.control, spin:r.spin,
+    matchScore: scoreMatch(r) + (i===0?10:0),
+    price:r.priceRange,
+    pros:["Prête à l'emploi, rien à configurer","Prix abordable","Revêtements équilibrés et durables"],
+    cons:["Moins personnalisable qu'une raquette assemblée","Progression limitée à long terme"],
+    products:[r], category:'Raquette complète'
+  }));
+}
+
+function buildIntermediaireProfiles() {
+  const profiles = [];
+  // All-round bois
+  const blade1 = findBlade('ALL+','OFF-','OFF', state.budget==='petit' ? 80 : 150);
+  const rubber1fh = findRubberWithEponge('intermediaire', state.spin>6?'spin':'control');
+  const rubber1bh = findRubberWithEponge('intermediaire','control');
+  if (blade1 && rubber1fh) {
+    profiles.push({ icon:'⚖️', title:'Combo All-Round Progressif', subtitle:'Lame bois + revêtements polyvalents',
+      why:`La lame ${blade1.name} offre un excellent feeling et le ${rubber1fh.name} côté coup droit apporte spin et contrôle.`,
+      type:'blade_rubber', speed:(blade1.speed+rubber1fh.speed)/2, control:(blade1.control+rubber1fh.control)/2, spin:rubber1fh.spin,
+      matchScore:scoreMatch({speed:(blade1.speed+rubber1fh.speed)/2,control:(blade1.control+rubber1fh.control)/2,spin:rubber1fh.spin}),
+      blade:blade1, rubberFH:rubber1fh, rubberBH:rubber1bh||rubber1fh,
+      pros:["Excellent feeling bois pur","Contrôle élevé","Idéal pour apprendre les techniques avancées"],
+      cons:["Moins explosif qu'une lame carbone","Plafond de vitesse plus limité"], category:'All-Round' });
+  }
+  // Offensif carbon
+  if (state.budget !== 'petit') {
+    const blade2 = findBlade('OFF',null,null,130,true);
+    const rubber2fh = findRubberWithEponge('offensive','speed');
+    const rubber2bh = findRubberWithEponge('intermediaire','spin');
+    if (blade2 && rubber2fh) {
+      profiles.push({ icon:'⚡', title:'Combo Offensif Carbon', subtitle:'Lame carbon + revêtements performants',
+        why:`La lame ${blade2.name} en carbone vous donne un saut de vitesse significatif. Associée au ${rubber2fh.name}, vous développez un jeu topspin explosif.`,
+        type:'blade_rubber', speed:(blade2.speed+rubber2fh.speed)/2, control:(blade2.control+rubber2fh.control)/2, spin:rubber2fh.spin,
+        matchScore:scoreMatch({speed:(blade2.speed+rubber2fh.speed)/2,control:(blade2.control+rubber2fh.control)/2,spin:rubber2fh.spin}),
+        blade:blade2, rubberFH:rubber2fh, rubberBH:rubber2bh||rubber2fh,
+        pros:["Plus de vitesse et de puissance","Bon pour progresser vers le haut niveau"],
+        cons:["Demande une technique plus solide","Moins forgiving que le bois pur"], category:'Offensif' });
+    }
+  }
+  // Topspin
+  if (state.style==='topspin' || state.spin>6) {
+    const blade3 = findBlade('OFF-','OFF',null,110);
+    const rubber3fh = findRubberWithEponge('offensive','spin',50);
+    const rubber3bh = findRubberWithEponge('intermediaire','spin');
+    if (blade3 && rubber3fh) {
+      profiles.push({ icon:'🌀', title:'Combo Topspin / Loopeur', subtitle:'Lame medium + revêtements haut spin',
+        why:`Configuration orientée topspin. La ${blade3.name} offre la stabilité pour développer de belles boucles.`,
+        type:'blade_rubber', speed:(blade3.speed+rubber3fh.speed)/2, control:(blade3.control+rubber3fh.control)/2, spin:rubber3fh.spin,
+        matchScore:scoreMatch({speed:(blade3.speed+rubber3fh.speed)/2,control:(blade3.control+rubber3fh.control)/2,spin:rubber3fh.spin})+5,
+        blade:blade3, rubberFH:rubber3fh, rubberBH:rubber3bh,
+        pros:["Spin exceptionnel côté FH","Bon potentiel d'effet","Idéal pour le jeu constructif"],
+        cons:["Moins efficace en attaque directe","Exige une bonne technique de boucle"], category:'Topspin' });
+    }
+  }
+  // Budget serré
+  if (state.budget==='petit'||state.budget==='moyen') {
+    const blade4 = findBlade('OFF-','ALL+',null,75);
+    const rubber4 = RUBBERS.find(r=>r.categ==='intermediaire'&&r.priceRange<=30&&r.type==='inverted');
+    if (blade4 && rubber4) {
+      profiles.push({ icon:'💶', title:'Combo Qualité-Prix', subtitle:'Excellent rapport performance/budget',
+        why:`La ${blade4.name} avec le ${rubber4.name} offre des performances remarquables pour un budget maîtrisé.`,
+        type:'blade_rubber', speed:(blade4.speed+rubber4.speed)/2, control:(blade4.control+rubber4.control)/2, spin:rubber4.spin,
+        matchScore:scoreMatch({speed:(blade4.speed+rubber4.speed)/2,control:(blade4.control+rubber4.control)/2,spin:rubber4.spin}),
+        blade:blade4, rubberFH:rubber4, rubberBH:rubber4,
+        pros:["Prix très accessible","Bonne qualité pour le niveau","Facile à trouver"],
+        cons:["Moins premium que les options haut de gamme"], category:'Budget' });
+    }
+  }
+  return profiles;
+}
+
+function buildConfirmeProfiles() {
+  const profiles = [];
+  const isAvance = state.niveau==='avance';
+  const budgetMax = state.budget==='moyen'?140:state.budget==='confortable'?260:999;
+
+  if (state.style==='attaquant'||state.style==='topspin'||state.vitesse>6) {
+    const blade = findBlade('OFF+','OFF',null,isAvance?budgetMax:200,isAvance);
+    const rubFH = findRubberWithEponge('offensive', state.spin>state.vitesse?'spin':'speed', isAvance?65:55);
+    const rubBH = state.spin>6 ? findRubberWithEponge('offensive','spin',isAvance?65:50) : findRubberWithEponge('intermediaire','control',45);
+    if (blade && rubFH) {
+      profiles.push({ icon:'⚡', title:isAvance?'Setup Attaquant Élite':'Setup Offensif Compétition',
+        subtitle:'Lame carbone OFF+ · Revêtements haute performance',
+        why:`La ${blade.name} associée au ${rubFH.name} permet des topspins explosifs${state.entrainements==='4+' ? ' — parfait pour ton rythme intensif' : ''}${state.position==='proche' ? ' — idéal pour ton jeu près de la table' : ''}. Setup de compétition.`,
+        type:'blade_rubber', speed:(blade.speed+rubFH.speed)/2, control:(blade.control+rubFH.control)/2, spin:rubFH.spin,
+        matchScore:scoreMatch({speed:(blade.speed+rubFH.speed)/2,control:(blade.control+rubFH.control)/2,spin:rubFH.spin})+(state.style==='attaquant'?10:5),
+        blade, rubberFH:rubFH, rubberBH:rubBH||rubFH,
+        pros:[
+          "Vitesse et puissance maximales",
+          "Excellent potentiel de spin",
+          "ITTF homologué compétition",
+          ...(state.entrainements==='4+' ? ["Adapté à ton volume d'entraînement élevé"] : []),
+          ...(state.objectif==='gagner' ? ["Matériel qui fait une vraie différence en match"] : []),
+        ],
+        cons:[
+          "Exige une excellente technique",
+          "Peu forgiving sur les fautes",
+          ...(state.entrainements==='1'||state.entrainements==='2' ? ["Attention : demande beaucoup de pratique pour être maîtrisé"] : []),
+        ], category:'Attaquant' });
+    }
+  }
+
+  const blade2 = findBlade('OFF','OFF-',null,200,true);
+  const rubFH2 = RUBBERS.find(r=>r.categ==='offensive'&&r.spin>=9&&r.ittf&&budgetOk(r.priceRange)&&r.type==='inverted');
+  const rubBH2 = RUBBERS.find(r=>r.categ==='offensive'&&r.spin>=8.5&&r.control>=8&&r.ittf&&budgetOk(r.priceRange)&&r.type==='inverted');
+  if (blade2 && rubFH2) {
+    profiles.push({ icon:'🌀', title:'Setup Topspin Moderne', subtitle:'Équilibre vitesse/spin · Style européen',
+      why:`La ${blade2.name} offre de la vitesse avec du feeling — associée au ${rubFH2.name} côté FH, parfait pour construire des points.`,
+      type:'blade_rubber', speed:(blade2.speed+rubFH2.speed)/2, control:(blade2.control+rubFH2.control)/2, spin:rubFH2.spin,
+      matchScore:scoreMatch({speed:(blade2.speed+rubFH2.speed)/2,control:(blade2.control+rubFH2.control)/2,spin:rubFH2.spin})+(state.style==='topspin'?10:0),
+      blade:blade2, rubberFH:rubFH2, rubberBH:rubBH2||rubFH2,
+      pros:["Spin exceptionnel FH et BH","Bonne vitesse avec contrôle","Excellent pour la compétition"],
+      cons:["Courbe d'apprentissage pour les revêtements durs"], category:'Topspin' });
+  }
+
+  if (state.style==='allround'||state.controle>7) {
+    const blade3 = findBlade('OFF','OFF-',null,160);
+    const rubFH3 = RUBBERS.find(r=>r.categ==='offensive'&&r.control>=8&&r.spin>=8.5&&r.ittf&&budgetOk(r.priceRange));
+    const rubBH3 = RUBBERS.find(r=>r.categ==='intermediaire'&&r.control>=8.5&&r.ittf&&budgetOk(r.priceRange));
+    if (blade3 && rubFH3) {
+      profiles.push({ icon:'⚖️', title:'Setup All-Round Confirmé', subtitle:'Polyvalence tactique · Contrôle élevé',
+        why:`La ${blade3.name} offre un excellent équilibre${state.revers==='faible' ? ' — parfait pour ton jeu centré CD' : state.revers==='arme' ? ' — ton revers sera redoutable' : ''}. Idéal pour varier et construire les points.`,
+        type:'blade_rubber', speed:(blade3.speed+rubFH3.speed)/2, control:(blade3.control+rubFH3.control)/2, spin:rubFH3.spin,
+        matchScore:scoreMatch({speed:(blade3.speed+rubFH3.speed)/2,control:(blade3.control+rubFH3.control)/2,spin:rubFH3.spin})+(state.style==='allround'?10:0),
+        blade:blade3, rubberFH:rubFH3, rubberBH:rubBH3||rubFH3,
+        pros:["Grande polyvalence tactique","Bon contrôle et régularité"],
+        cons:["Moins explosif que les setups offensifs purs"], category:'All-Round' });
+    }
+  }
+
+  if (state.style==='defenseur') {
+    const blade4 = BLADES.find(b=>b.type==='DEF'||b.type==='ALL');
+    const rubFH4 = RUBBERS.find(r=>r.categ==='intermediaire'&&r.control>=8.5&&r.type==='inverted'&&r.ittf);
+    const rubBH4 = state.specialites.includes('longpips_def')
+      ? RUBBERS.find(r=>r.type==='longpips'&&r.ittf)
+      : RUBBERS.find(r=>r.categ==='defenseur'&&r.ittf);
+    if (blade4 && rubFH4) {
+      profiles.push({ icon:'🛡️', title:'Setup Défenseur', subtitle:state.specialites.includes('longpips_def')?'Lame DEF + picots longs BH':'Lame DEF + revêtements défensifs',
+        why:`La ${blade4.name} conçue pour la défense, associée au ${rubFH4.name} côté FH — configuration idéale pour perturber l'adversaire.`,
+        type:'blade_rubber', speed:(blade4.speed+rubFH4.speed)/2, control:(blade4.control+rubFH4.control)/2, spin:rubFH4.spin,
+        matchScore:scoreMatch({speed:(blade4.speed+rubFH4.speed)/2,control:(blade4.control+rubFH4.control)/2,spin:rubFH4.spin})+15,
+        blade:blade4, rubberFH:rubFH4, rubberBH:rubBH4||rubFH4,
+        pros:["Excellent contrôle","Capacité à perturber l'adversaire","Jeu long possible"],
+        cons:["Moins efficace contre les attaquants modernes","Style difficile à maîtriser"], category:'Défenseur' });
+    }
+  }
+  return profiles;
+}
+
+function findBlade(type1,type2,type3,maxPrice,preferCarbon) {
+  let c = BLADES.filter(b=>{
+    const tm = b.type===type1||b.type===type2||b.type===type3;
+    const pm = !maxPrice||b.price<=maxPrice;
+    return tm && pm;
+  });
+  if (preferCarbon) c = c.filter(b=>b.layers.includes('carbon')||b.layers.includes('ALC')||b.layers.includes('ZLC'));
+  if (!c.length) c = BLADES.filter(b=>b.price<=(maxPrice||999));
+  c.sort((a,b)=>(b.speed/10)*state.vitesse+(b.control/10)*state.controle - ((a.speed/10)*state.vitesse+(a.control/10)*state.controle));
+  return c[0]||null;
+}
+function findRubber(categ,priority,maxPrice) {
+  let c = RUBBERS.filter(r=>r.categ===categ&&(!maxPrice||r.priceRange<=maxPrice)&&r.type==='inverted'&&r.ittf);
+  if (!c.length) c = RUBBERS.filter(r=>r.type==='inverted'&&r.ittf);
+  if (priority==='spin') c.sort((a,b)=>b.spin-a.spin);
+  else if (priority==='speed') c.sort((a,b)=>b.speed-a.speed);
+  else c.sort((a,b)=>b.control-a.control);
+  return c[0]||null;
+}
+function findRubberByPriority(categ,priority,maxPrice) {
+  let c = RUBBERS.filter(r=>r.categ===categ&&r.ittf&&r.type==='inverted'&&(!maxPrice||r.priceRange<=maxPrice));
+  if (!c.length) c = RUBBERS.filter(r=>r.ittf&&r.type==='inverted');
+  if (priority==='spin') c.sort((a,b)=>b.spin-a.spin);
+  else c.sort((a,b)=>b.speed-a.speed);
+  return c[0]||null;
+}
+
+// ============================================================
+//  RÉSULTATS
+// ============================================================
+function generateResults() {
+  document.getElementById('quiz').style.display='none';
+  const r = document.getElementById('results');
+  r.style.display='block'; r.classList.add('visible');
+
+  const levelL = {debutant:'Débutant',intermediaire:'Intermédiaire',confirme:'Confirmé',avance:'Avancé'};
+  const styleL = {defenseur:'Défenseur 🛡️',allround:'All-Round ⚖️',attaquant:'Attaquant ⚡',topspin:'Topspin 🌀'};
+  const budgetL = {petit:'< 50 €',moyen:'50–120 €',confortable:'120–250 €',premium:'250 €+'};
+  const pratiqueL = {decouverte:'Découverte',debutant:'Débutant',intermediaire:'En progression',confirme:'Confirmé',expert:'Expert',loisir:'Loisir'};
+
+  const pointFortL = {topspin:'🔥 Topspin', frappe:'💥 Frappe', placement:'🧠 Placement', defense:'🛡️ Défense'};
+  const epongeL = {dure:'Éponge dure', souple:'Éponge souple', medium:'Éponge medium', sais_pas:''};
+  document.getElementById('heroDesc').textContent =
+    `${levelL[state.niveau]} · ${styleL[state.style]} · Budget ${budgetL[state.budget]}${state.entrainements ? ' · '+state.entrainements+'x/sem.' : ''}`;
+
+  let classInfo = '';
+  if (state.classementVal) classInfo = ` · ${state.classementVal} pts FFTT`;
+  else if (state.classement && state.classement!=='nc' && state.classement!=='none' && !state.classement.startsWith('libre')) {
+    const labels = {'u500':'< 500 pts','500_700':'500–700 pts','700_900':'700–900 pts','900_1100':'900–1100 pts','1100_1400':'1100–1400 pts','1400_1700':'1400–1700 pts','1700_2000':'1700–2000 pts','2000_2300':'2000–2300 pts','2300plus':'2300+ pts'};
+    classInfo = ` · ${labels[state.classement]||''} FFTT`;
+  }
+
+  const pointFortLabels = {topspin:'🔥 Topspin', frappe:'💥 Frappe', placement:'🧠 Placement', defense:'🛡️ Défense'};
+  const epongeLabels = {dure:'Éponge dure', souple:'Éponge souple', medium:'Éponge medium'};
+  const tags = document.getElementById('heroTags');
+  tags.innerHTML = [
+    pratiqueL[state.pratique]||'',
+    classInfo.trim()||'',
+    state.pointFort ? (pointFortLabels[state.pointFort]||'') : '',
+    state.eponge && state.eponge !== 'sais_pas' ? (epongeLabels[state.eponge]||'') : '',
+    state.entrainements ? state.entrainements+'x/sem.' : '',
+    `V:${state.vitesse}/10`,
+    `Ctrl:${state.controle}/10`,
+    `Spin:${state.spin}/10`
+  ].filter(Boolean).map(t=>`<span class="hero-tag">${t}</span>`).join('');
+
+  renderProfiles(buildProfiles());
+}
+
+// ============================================================
+//  RENDER
+// ============================================================
+const PROFILE_COLORS = ['color-blue','color-orange','color-purple','color-green'];
+
+function renderProfiles(profiles) {
+  const grid = document.getElementById('resultsGrid');
+  grid.innerHTML = '';
+  profiles.forEach((p,i) => {
+    const isBest = i===0;
+    const colorClass = PROFILE_COLORS[i%4];
+    const totalPrice = p.type==='complete' ? `~${p.price} €` : `~${((p.blade?.price||0)+(p.rubberFH?.priceRange||0)*2)} €`;
+    let productsHTML = '';
+    if (p.type==='complete') {
+      productsHTML = `<div class="prod-section-title">🏓 Raquette complète</div>${productCardHTML(p.products[0])}`;
+    } else {
+      productsHTML = `<div class="prod-section-title">🏓 Lame</div>${p.blade?bladeCardHTML(p.blade):''}
+      <div class="prod-section-title">🔴 Coup droit (FH)</div>${p.rubberFH?rubberCardHTML(p.rubberFH):''}
+      <div class="prod-section-title">🔵 Revers (BH)</div>${p.rubberBH?rubberCardHTML(p.rubberBH,p.rubberFH?.id===p.rubberBH?.id):''}`;
+    }
+    const speedPct  = Math.round(((p.speed||5)/10)*100);
+    const ctrlPct   = Math.round(((p.control||5)/10)*100);
+    const spinPct   = Math.round(((p.spin||5)/10)*100);
+    grid.innerHTML += `
+      <div class="profile-card ${isBest?'best-match':''}">
+        <div class="profile-header ${colorClass}" data-icon="${p.icon}">
+          <div class="ph-top">
+            <div class="ph-left">
+              <div class="ph-title">${p.icon} ${p.title}</div>
+              <div class="ph-sub">${p.subtitle}</div>
+            </div>
+            ${isBest?'<span class="best-badge">⭐ Meilleur match</span>':''}
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:.5rem">
+            <div class="match-row" style="flex:1">
+              <span class="match-label">Match</span>
+              <div class="match-track"><div class="match-fill" data-pct="${p.matchScore}"></div></div>
+              <span class="match-pct">${p.matchScore}%</span>
+            </div>
+            <div class="price-tag">${totalPrice}</div>
+          </div>
+        </div>
+        <div class="profile-body">
+          <p class="why-text">${p.why}</p>
+          <div class="stat-bars">
+            <div class="stat-row"><span class="stat-name">Vitesse</span><div class="stat-track"><div class="stat-fill" style="background:var(--orange)" data-pct="${speedPct}"></div></div><span class="stat-num">${(p.speed||5).toFixed(1)}</span></div>
+            <div class="stat-row"><span class="stat-name">Contrôle</span><div class="stat-track"><div class="stat-fill" style="background:var(--green)" data-pct="${ctrlPct}"></div></div><span class="stat-num">${(p.control||5).toFixed(1)}</span></div>
+            <div class="stat-row"><span class="stat-name">Spin</span><div class="stat-track"><div class="stat-fill" style="background:var(--purple)" data-pct="${spinPct}"></div></div><span class="stat-num">${(p.spin||5).toFixed(1)}</span></div>
+          </div>
+          <div class="pros-cons">
+            <div class="pros"><h5>✓ Pour</h5><ul>${p.pros.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+            <div class="cons"><h5>✗ Limites</h5><ul>${p.cons.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+          </div>
+          <div class="products-section">${productsHTML}</div>
+        </div>
+      </div>`;
+  });
+  requestAnimationFrame(()=>{
+    setTimeout(()=>{
+      document.querySelectorAll('.match-fill[data-pct]').forEach(el=>{ el.style.width=el.dataset.pct+'%'; });
+      document.querySelectorAll('.stat-fill[data-pct]').forEach(el=>{ el.style.width=el.dataset.pct+'%'; });
+    },150);
+  });
+}
+
+function bladeCardHTML(b) {
+  return `<div class="product-row" onclick="showModal('blade','${b.id}')">
+    <div class="pr-top"><div><div class="pr-name">${b.name}</div><div class="pr-brand">${b.brand} · ${b.layers} · ${b.type}</div></div><div class="pr-price">~${b.price} €</div></div>
+    <div class="pr-tags"><span class="pr-tag spd">V ${b.speed}</span><span class="pr-tag ctl">Ctrl ${b.control}</span><span class="pr-tag def">${b.stiffness}</span></div>
+  </div>`;
+}
+function rubberCardHTML(r,isSame) {
+  return `<div class="product-row" onclick="showModal('rubber','${r.id}')">
+    <div class="pr-top"><div><div class="pr-name">${r.name}${isSame?' <span style="font-size:.65rem;color:var(--muted)">(idem FH)</span>':''}</div><div class="pr-brand">${r.brand} · ${typeLabel(r.type)} · ${r.hardness}</div></div><div class="pr-price">~${r.priceRange} €</div></div>
+    <div class="pr-tags"><span class="pr-tag spd">V ${r.speed}</span><span class="pr-tag spi">S ${r.spin}</span><span class="pr-tag ctl">C ${r.control}</span>${r.ittf?'<span class="pr-tag ittf">✅ ITTF</span>':''}</div>
+  </div>`;
+}
+function productCardHTML(r) {
+  return `<div class="product-row">
+    <div class="pr-top"><div><div class="pr-name">${r.name}</div><div class="pr-brand">${r.brand} · Raquette complète</div></div><div class="pr-price">~${r.priceRange} €</div></div>
+    <div class="pr-tags"><span class="pr-tag spd">V ${r.speed}</span><span class="pr-tag ctl">C ${r.control}</span><span class="pr-tag spi">S ${r.spin}</span></div>
+  </div>`;
+}
+function typeLabel(t) { return {inverted:'Lisse',shortpips:'Picots courts',longpips:'Picots longs',antispin:'Anti-spin'}[t]||t; }
+
+// ============================================================
+//  MODAL
+// ============================================================
+function showModal(type,id) {
+  const item = type==='blade' ? BLADES.find(b=>b.id===id) : RUBBERS.find(r=>r.id===id);
+  if (!item) return;
+  let html = '';
+  if (type==='blade') {
+    html = `<div class="modal-head"><button class="modal-close" onclick="closeModal()">✕</button><h3>🏓 ${item.name}</h3><div class="modal-brand">${item.brand} · Lame · ${item.layers}</div></div>
+    <div class="modal-body">
+      <div class="modal-stats">
+        <div class="mstat"><div class="mstat-val">${item.speed}</div><div class="mstat-lbl">Vitesse</div></div>
+        <div class="mstat"><div class="mstat-val">${item.control}</div><div class="mstat-lbl">Contrôle</div></div>
+        <div class="mstat"><div class="mstat-val" style="font-size:.9rem">${item.stiffness}</div><div class="mstat-lbl">Rigidité</div></div>
+      </div>
+      <p class="modal-desc">${item.desc}</p>
+      <div class="modal-tags"><span class="pr-tag def">~${item.price} €</span><span class="pr-tag def">${item.type}</span><span class="pr-tag def">${item.layers}</span></div>
+    </div>`;
+  } else {
+    html = `<div class="modal-head"><button class="modal-close" onclick="closeModal()">✕</button><h3>${item.name}</h3><div class="modal-brand">${item.brand} · ${typeLabel(item.type)} · Éponge ${item.hardness}</div></div>
+    <div class="modal-body">
+      ${item.ittf?'<span class="ittf-badge">✅ Homologué ITTF Compétition</span>':''}
+      <div class="modal-stats">
+        <div class="mstat"><div class="mstat-val">${item.speed}</div><div class="mstat-lbl">Vitesse</div></div>
+        <div class="mstat"><div class="mstat-val">${item.spin}</div><div class="mstat-lbl">Spin</div></div>
+        <div class="mstat"><div class="mstat-val">${item.control}</div><div class="mstat-lbl">Contrôle</div></div>
+      </div>
+      <p class="modal-desc">${item.desc}</p>
+      <div class="modal-tags"><span class="pr-tag def">~${item.priceRange} € / revêt.</span><span class="pr-tag def">${item.hardness}</span></div>
+    </div>`;
+  }
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(e) {
+  if (!e || e.target===document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ============================================================
+//  RESET
+// ============================================================
+function resetQuiz() {
+  const r = document.getElementById('results');
+  r.style.display='none'; r.classList.remove('visible');
+  document.getElementById('quiz').style.display='block';
+  currentStep=1;
+  Object.assign(state,{
+    pratique:null,classement:null,classementVal:null,classementNiveau:null,
+    niveau:null,style:null,main:null,specialites:[],faibles:[],
+    vitesse:5,controle:5,spin:5,puissance:5,budget:null,
+    eponge:null,entrainements:null,pointFort:null,pertePt:null,
+    balleCoupee:null,revers:null,position:null,
+    prefRaquette:null,ressenti:null,objectif:null
+  });
+  document.querySelectorAll('.quiz-step').forEach(s=>s.classList.remove('active','leaving'));
+  document.getElementById('step1').classList.add('active');
+  document.querySelectorAll('.option-btn,.option-btn-sm,.points-btn').forEach(b=>b.classList.remove('selected'));
+  document.querySelectorAll('.check-btn').forEach(b=>{b.classList.remove('selected');b.querySelector('.cb').innerHTML='';});
+  document.querySelectorAll('[id^=next]').forEach(b=>b.disabled=true);
+  ['vitesse','controle','spin','puissance'].forEach(f=>{
+    document.getElementById('sl_'+f).value=5;
+    document.getElementById('val_'+f).textContent='5';
+  });
+  // Reset classement tabs
+  document.querySelectorAll('.classement-tab').forEach((t,i)=>{ t.classList.toggle('active',i===0); });
+  document.querySelectorAll('.classement-panel').forEach((p,i)=>{ p.classList.toggle('active',i===0); });
+  const inp = document.getElementById('inputClassement');
+  if (inp) inp.value='';
+  const res = document.getElementById('classResultLibre');
+  if (res) { res.className='classement-result'; res.style.display='none'; }
+  // Reset nouveaux éléments
+  document.querySelectorAll('.inline-opt').forEach(b=>b.classList.remove('selected'));
+  document.querySelectorAll('.freq-btn').forEach(b=>b.classList.remove('selected'));
+  // Disable new step buttons
+  ['next8','next9','next10','next12'].forEach(id=>{
+    const b = document.getElementById(id); if(b) b.disabled=true;
+  });
+  document.getElementById('next11').disabled = false;
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
